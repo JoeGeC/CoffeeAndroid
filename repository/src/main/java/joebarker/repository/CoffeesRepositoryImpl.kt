@@ -20,7 +20,9 @@ class CoffeesRepositoryImpl(
 
     private fun getCoffeeListFromRemote(): Either<List<Coffee>?, ErrorEntity?> {
         val remoteCoffeeList = remote.getCoffeeList()
-        return Either.Success(remoteCoffeeList.body?.convert())
+        if(remoteCoffeeList == null || (remoteCoffeeList.isSuccess && remoteCoffeeList.body?.coffees.isNullOrEmpty()))
+            return Either.Failure(ErrorEntity())
+        return Either.Success(remoteCoffeeList?.body?.convert())
     }
 
 }

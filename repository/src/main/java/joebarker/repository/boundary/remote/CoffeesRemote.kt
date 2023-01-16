@@ -5,5 +5,5 @@ import joebarker.repository.response.CoffeeListResponse
 import joebarker.repository.response.ErrorResponse
 
 interface CoffeesRemote {
-    fun getCoffeeList(): Either<CoffeeListResponse?, ErrorResponse?>
+    fun getCoffeeList(): Either<CoffeeListResponse?, ErrorResponse?>?
 }
