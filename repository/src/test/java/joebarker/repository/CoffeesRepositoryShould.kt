@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
 
 class CoffeesRepositoryShould {
     private val noDataResponse = CoffeeListResponse(listOf())
@@ -97,6 +98,7 @@ class CoffeesRepositoryShould {
 
         assertEquals(expectedFailure.isFailure, result.isFailure)
     }
+
     @Test
     fun `Return error entity when remote returns error`(){
         val local = mock<CoffeesLocal> {
@@ -110,5 +112,20 @@ class CoffeesRepositoryShould {
         val result = repository.getCoffeeList()
 
         assertEquals(expectedFailure.isFailure, result.isFailure)
+    }
+
+    @Test
+    fun `Save to local on remote success`() {
+        val local = mock<CoffeesLocal> {
+            onBlocking { getCoffeeList() } doReturn null
+        }
+        val remote = mock<CoffeesRemote> {
+            onBlocking { getCoffeeList() } doReturn remoteSuccessRepsonse
+        }
+        val repository = CoffeesRepositoryImpl(local, remote)
+
+        repository.getCoffeeList()
+
+        verify(local).insert(coffeeResponses)
     }
 }
