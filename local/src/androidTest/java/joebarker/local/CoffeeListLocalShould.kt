@@ -27,4 +27,11 @@ class CoffeeListLocalShould {
         local.insert(coffeeListResponse)
         assertEquals(coffeesFromDatabase, dao.getAll())
     }
+
+    @Test
+    fun getAllCoffeesFromDatabase() {
+        dao.insertAll(*coffeesFromDatabase.toTypedArray())
+        val result = local.getCoffeeList()
+        assertEquals(coffeeListResponse, result)
+    }
 }
