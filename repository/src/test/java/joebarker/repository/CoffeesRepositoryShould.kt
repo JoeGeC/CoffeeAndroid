@@ -3,8 +3,8 @@ package joebarker.repository
 import joebarker.domain.entity.Coffee
 import joebarker.domain.entity.Either
 import joebarker.domain.entity.ErrorEntity
-import joebarker.repository.boundary.local.CoffeesLocal
-import joebarker.repository.boundary.remote.CoffeesRemote
+import joebarker.repository.boundary.local.CoffeeListLocal
+import joebarker.repository.boundary.remote.CoffeeListRemote
 import joebarker.repository.response.CoffeeListResponse
 import joebarker.repository.response.CoffeeResponse
 import joebarker.repository.response.ErrorResponse
@@ -30,11 +30,11 @@ class CoffeesRepositoryShould {
 
     @Test
     fun `Get list of coffees from local`(){
-        val local = mock<CoffeesLocal> {
+        val local = mock<CoffeeListLocal> {
             onBlocking { getCoffeeList() } doReturn localSuccessResponse
         }
-        val remote = mock<CoffeesRemote>()
-        val repository = CoffeesRepositoryImpl(local, remote)
+        val remote = mock<CoffeeListRemote>()
+        val repository = CoffeeListRepositoryImpl(local, remote)
 
         val result = repository.getCoffeeList()
 
@@ -57,13 +57,13 @@ class CoffeesRepositoryShould {
     }
 
     private fun getListOfCoffeesFromRemoteWhenLocalIs(localResponse: CoffeeListResponse?) {
-        val local = mock<CoffeesLocal> {
+        val local = mock<CoffeeListLocal> {
             onBlocking { getCoffeeList() } doReturn localResponse
         }
-        val remote = mock<CoffeesRemote> {
+        val remote = mock<CoffeeListRemote> {
             onBlocking { getCoffeeList() } doReturn remoteSuccessRepsonse
         }
-        val repository = CoffeesRepositoryImpl(local, remote)
+        val repository = CoffeeListRepositoryImpl(local, remote)
 
         val result = repository.getCoffeeList()
 
@@ -86,13 +86,13 @@ class CoffeesRepositoryShould {
     }
 
     private fun returnErrorEntityWhen(response: CoffeeListResponse?) {
-        val local = mock<CoffeesLocal> {
+        val local = mock<CoffeeListLocal> {
             onBlocking { getCoffeeList() } doReturn response
         }
-        val remote = mock<CoffeesRemote> {
+        val remote = mock<CoffeeListRemote> {
             onBlocking { getCoffeeList() } doReturn Either.Success(response)
         }
-        val repository = CoffeesRepositoryImpl(local, remote)
+        val repository = CoffeeListRepositoryImpl(local, remote)
 
         val result = repository.getCoffeeList()
 
@@ -101,13 +101,13 @@ class CoffeesRepositoryShould {
 
     @Test
     fun `Return error entity when remote returns error`(){
-        val local = mock<CoffeesLocal> {
+        val local = mock<CoffeeListLocal> {
             onBlocking { getCoffeeList() } doReturn null
         }
-        val remote = mock<CoffeesRemote> {
+        val remote = mock<CoffeeListRemote> {
             onBlocking { getCoffeeList() } doReturn Either.Failure(ErrorResponse())
         }
-        val repository = CoffeesRepositoryImpl(local, remote)
+        val repository = CoffeeListRepositoryImpl(local, remote)
 
         val result = repository.getCoffeeList()
 
@@ -116,13 +116,13 @@ class CoffeesRepositoryShould {
 
     @Test
     fun `Save to local on remote success`() {
-        val local = mock<CoffeesLocal> {
+        val local = mock<CoffeeListLocal> {
             onBlocking { getCoffeeList() } doReturn null
         }
-        val remote = mock<CoffeesRemote> {
+        val remote = mock<CoffeeListRemote> {
             onBlocking { getCoffeeList() } doReturn remoteSuccessRepsonse
         }
-        val repository = CoffeesRepositoryImpl(local, remote)
+        val repository = CoffeeListRepositoryImpl(local, remote)
 
         repository.getCoffeeList()
 

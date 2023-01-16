@@ -1,5 +1,5 @@
 package joebarker.domain.entity
 
-class ErrorEntity {
-
-}
+data class ErrorEntity(
+    val error: String
+)

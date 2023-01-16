@@ -1,5 +1,5 @@
 package joebarker.repository.response
 
-class ErrorResponse {
-
-}
+data class ErrorResponse(
+    val status_message: String
+)

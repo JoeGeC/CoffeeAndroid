@@ -3,12 +3,12 @@ package joebarker.repository
 import joebarker.domain.entity.Coffee
 import joebarker.domain.entity.Either
 import joebarker.domain.entity.ErrorEntity
-import joebarker.repository.boundary.local.CoffeesLocal
-import joebarker.repository.boundary.remote.CoffeesRemote
+import joebarker.repository.boundary.local.CoffeeListLocal
+import joebarker.repository.boundary.remote.CoffeeListRemote
 
-class CoffeesRepositoryImpl(
-    private val local: CoffeesLocal,
-    private val remote: CoffeesRemote
+class CoffeeListRepositoryImpl(
+    private val local: CoffeeListLocal,
+    private val remote: CoffeeListRemote
 ) {
 
     fun getCoffeeList(): Either<List<Coffee>?, ErrorEntity?> {
@@ -21,7 +21,7 @@ class CoffeesRepositoryImpl(
     private fun getCoffeeListFromRemote(): Either<List<Coffee>?, ErrorEntity?> {
         val result = remote.getCoffeeList()
         if (result == null || result.isFailure || (result.isSuccess && result.body?.coffees.isNullOrEmpty()))
-            return Either.Failure(ErrorEntity())
+            return Either.Failure(ErrorEntity(""))
         local.insert(result.body?.coffees)
         return Either.Success(result.body?.convert())
     }
