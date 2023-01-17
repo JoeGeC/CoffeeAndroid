@@ -1,4 +1,4 @@
-package joebarker.remote.coffees
+package joebarker.remote.coffeeList
 
 import joebarker.repository.response.CoffeeListResponse
 import retrofit2.Call

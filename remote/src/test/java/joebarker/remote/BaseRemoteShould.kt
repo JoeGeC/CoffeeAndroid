@@ -1,7 +1,7 @@
 package joebarker.remote
 
-import joebarker.remote.coffees.CoffeeListRemoteCalls
-import joebarker.remote.coffees.CoffeeListRemoteImpl
+import joebarker.remote.coffeeList.CoffeeListRemoteCalls
+import joebarker.remote.coffeeList.CoffeeListRemoteImpl
 import joebarker.repository.response.CoffeeListResponse
 import joebarker.repository.response.EitherResponse
 import joebarker.repository.response.ErrorResponse

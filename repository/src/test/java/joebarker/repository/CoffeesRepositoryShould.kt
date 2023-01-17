@@ -7,6 +7,7 @@ import joebarker.repository.boundary.local.CoffeeListLocal
 import joebarker.repository.boundary.remote.CoffeeListRemote
 import joebarker.repository.response.CoffeeListResponse
 import joebarker.repository.response.CoffeeResponse
+import joebarker.repository.response.EitherResponse
 import joebarker.repository.response.ErrorResponse
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -17,21 +18,20 @@ import org.mockito.kotlin.verify
 class CoffeesRepositoryShould {
     private val noDataResponse = CoffeeListResponse(listOf())
     private val nullDataResponse = CoffeeListResponse(null)
-    private val coffeeResponses = listOf(
+    private val coffeeResponses = CoffeeListResponse(listOf(
         CoffeeResponse(0, "Title", "Description", listOf("Ingredient"), "Image Url")
-    )
-    private val localSuccessResponse = CoffeeListResponse(coffeeResponses)
-    private val remoteSuccessRepsonse = Either.Success(CoffeeListResponse(coffeeResponses))
+    ))
+    private val remoteSuccessRepsonse = EitherResponse.Success(coffeeResponses)
     private val coffees = listOf(
         Coffee(0, "Title", "Description", listOf("Ingredient"), "Image Url")
     )
     private val expectedSuccess = Either.Success(coffees)
-    private val expectedFailure = Either.Failure(ErrorEntity())
+    private val expectedFailure = Either.Failure(ErrorEntity("error"))
 
     @Test
     fun `Get list of coffees from local`(){
         val local = mock<CoffeeListLocal> {
-            onBlocking { getCoffeeList() } doReturn localSuccessResponse
+            onBlocking { getCoffeeList() } doReturn coffeeResponses
         }
         val remote = mock<CoffeeListRemote>()
         val repository = CoffeeListRepositoryImpl(local, remote)
@@ -90,7 +90,7 @@ class CoffeesRepositoryShould {
             onBlocking { getCoffeeList() } doReturn response
         }
         val remote = mock<CoffeeListRemote> {
-            onBlocking { getCoffeeList() } doReturn Either.Success(response)
+            onBlocking { getCoffeeList() } doReturn EitherResponse.Success(response)
         }
         val repository = CoffeeListRepositoryImpl(local, remote)
 
@@ -105,7 +105,7 @@ class CoffeesRepositoryShould {
             onBlocking { getCoffeeList() } doReturn null
         }
         val remote = mock<CoffeeListRemote> {
-            onBlocking { getCoffeeList() } doReturn Either.Failure(ErrorResponse())
+            onBlocking { getCoffeeList() } doReturn EitherResponse.Failure(ErrorResponse("error"))
         }
         val repository = CoffeeListRepositoryImpl(local, remote)
 
