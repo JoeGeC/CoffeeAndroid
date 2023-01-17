@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.launch
 
 class CoffeeListViewModel(
@@ -23,7 +24,9 @@ class CoffeeListViewModel(
     fun fetchCoffeeList(dispatcher: CoroutineDispatcher = Dispatchers.IO) {
         viewModelScope.launch(dispatcher) {
             val result = useCase.getCoffeeList()
-            coffeeList = result.body
+            if(result.isSuccess) coffeeList = result.body
+            else _error.value = true
+            _isLoading.value = false
         }
     }
 }
