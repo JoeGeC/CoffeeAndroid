@@ -1,6 +1,6 @@
 package joebarker.coffee
 
-import joebarker.coffee.coffeeList.CoffeeListViewModel
+import joebarker.coffee.viewModel.CoffeeListViewModel
 import joebarker.domain.boundary.presentation.GetCoffeeListUseCase
 import joebarker.domain.entity.Coffee
 import joebarker.domain.entity.Either
@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
-import org.mockito.kotlin.verify
 
 class CoffeeListViewModelShould {
 
