@@ -5,5 +5,5 @@ data class CoffeeResponse(
     val title: String?,
     val description: String?,
     val ingredients: Array<String?>?,
-    val imageUrl: String?,
+    val image: String?,
 )

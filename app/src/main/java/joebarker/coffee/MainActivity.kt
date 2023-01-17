@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.compose.rememberNavController
 import joebarker.coffee.coffeeList.CoffeeListPage
+import joebarker.coffee.ui.NavigationComponent
 import joebarker.coffee.ui.theme.CoffeeTheme
 
 class MainActivity : ComponentActivity() {
@@ -21,9 +22,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    val viewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current) {    }
-                    val navController = rememberNavController()
-                    CoffeeListPage(navController = navController)
+                    NavigationComponent()
                 }
             }
         }

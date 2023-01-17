@@ -17,7 +17,7 @@ class CoffeeAdapter {
                         coffee.title,
                         coffee.description,
                         toGson(coffee.ingredients),
-                        coffee.imageUrl
+                        coffee.image
                     )
                 )
             }

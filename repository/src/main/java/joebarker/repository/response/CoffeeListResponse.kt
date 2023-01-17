@@ -15,7 +15,7 @@ data class CoffeeListResponse(
                     response.title ?: "",
                     response.description ?: "",
                     convertIngredients(response.ingredients),
-                    response.imageUrl ?: ""
+                    response.image ?: ""
                 )
             )
         }
@@ -37,7 +37,7 @@ data class CoffeeListResponse(
             if(coffee.id != other.coffees?.get(i)?.id
                 || coffee.title != other.coffees?.get(i)?.title
                 || coffee.description != other.coffees?.get(i)?.description
-                || coffee.imageUrl != other.coffees?.get(i)?.imageUrl
+                || coffee.image != other.coffees?.get(i)?.image
                 || !matchingStringList(coffee.ingredients, other.coffees?.get(i)?.ingredients)
             ) return false
         }
