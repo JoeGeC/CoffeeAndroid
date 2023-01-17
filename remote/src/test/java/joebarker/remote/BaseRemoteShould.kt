@@ -3,6 +3,7 @@ package joebarker.remote
 import joebarker.remote.coffeeList.CoffeeListRemoteCalls
 import joebarker.remote.coffeeList.CoffeeListRemoteImpl
 import joebarker.repository.response.CoffeeListResponse
+import joebarker.repository.response.CoffeeResponse
 import joebarker.repository.response.EitherResponse
 import joebarker.repository.response.ErrorResponse
 import okhttp3.MediaType
@@ -28,7 +29,7 @@ class BaseRemoteShould {
 
     @Test
     fun `Return error response on failure call`(){
-        val response = Response.error<CoffeeListResponse>(errorCode, ResponseBody.create(MediaType.parse("application/json"), errorsJson))
+        val response = Response.error<List<CoffeeResponse>>(errorCode, ResponseBody.create(MediaType.parse("application/json"), errorsJson))
         val remoteCalls = mock<CoffeeListRemoteCalls> {
             on { retrieveCoffees() }.doReturn(Calls.response(response))
         }

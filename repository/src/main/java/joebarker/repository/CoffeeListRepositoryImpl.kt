@@ -22,10 +22,10 @@ class CoffeeListRepositoryImpl(
 
     private fun getCoffeeListFromRemote(): Either<List<Coffee>?, ErrorEntity?> {
         val result = remote.getCoffeeList()
-        if (result == null || result.isFailure || (result.isSuccess && result.body?.coffees.isNullOrEmpty()))
+        if (result == null || result.isFailure || (result.isSuccess && result.body.isNullOrEmpty()))
             return Either.Failure(ErrorEntity(""))
-        local.insert(CoffeeListResponse(result.body?.coffees))
-        return Either.Success(result.body?.convertToDomain())
+        local.insert(result.body)
+        return Either.Success(CoffeeListResponse(result.body).convertToDomain())
     }
 
 }

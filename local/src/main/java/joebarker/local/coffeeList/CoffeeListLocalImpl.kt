@@ -2,6 +2,7 @@ package joebarker.local.coffeeList
 
 import joebarker.repository.boundary.local.CoffeeListLocal
 import joebarker.repository.response.CoffeeListResponse
+import joebarker.repository.response.CoffeeResponse
 
 class CoffeeListLocalImpl(
     private val database: CoffeeDatabase
@@ -12,7 +13,7 @@ class CoffeeListLocalImpl(
         return CoffeeAdapter.toResponse(listFromDatabase)
     }
 
-    override fun insert(coffeeResponses: CoffeeListResponse?) {
+    override fun insert(coffeeResponses: List<CoffeeResponse>?) {
         database.coffeeListDao().insertAll(*(CoffeeAdapter.toData(coffeeResponses)).toTypedArray())
     }
 

@@ -16,10 +16,10 @@ class CoffeeListLocalShould {
     private val database = Room.inMemoryDatabaseBuilder(context, CoffeeDatabase::class.java).build()
     private val local = CoffeeListLocalImpl(database)
     private val dao = database.coffeeListDao()
-    private val coffeeListResponse = CoffeeListResponse(listOf(
-        CoffeeResponse(0, "title1", "description1", listOf(), "image url1"),
-        CoffeeResponse(1, "title2", "description2", listOf(), "image url2")
-    ))
+    private val coffeeListResponse = listOf(
+        CoffeeResponse(0, "title1", "description1", arrayOf(), "image url1"),
+        CoffeeResponse(1, "title2", "description2", arrayOf(), "image url2")
+    )
     private val coffeesFromDatabase = listOf(
         Coffee(0, "title1", "description1", "[]", "image url1"),
         Coffee(1, "title2", "description2", "[]", "image url2")
@@ -35,6 +35,6 @@ class CoffeeListLocalShould {
     fun getAllCoffeesFromDatabase() {
         dao.insertAll(*coffeesFromDatabase.toTypedArray())
         val result = local.getCoffeeList()
-        assertEquals(coffeeListResponse, result)
+        assertEquals(CoffeeListResponse(coffeeListResponse), result)
     }
 }

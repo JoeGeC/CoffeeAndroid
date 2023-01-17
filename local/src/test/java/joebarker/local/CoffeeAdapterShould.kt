@@ -13,10 +13,10 @@ class CoffeeAdapterShould {
         Coffee(1, "second title", "second description", "[]", "second image url")
     )
 
-    private val coffeeResponseList = CoffeeListResponse(listOf(
-        CoffeeResponse(0, "first title", "first description", listOf("first ingredient", "second ingredient"), "first image url"),
-        CoffeeResponse(1, "second title", "second description", listOf(), "second image url")
-    ))
+    private val coffeeResponseList = listOf(
+        CoffeeResponse(0, "first title", "first description", arrayOf("first ingredient", "second ingredient"), "first image url"),
+        CoffeeResponse(1, "second title", "second description", arrayOf(), "second image url")
+    )
 
     @Test
     fun convertCoffeeListResponseToCoffeeData(){
@@ -27,7 +27,7 @@ class CoffeeAdapterShould {
     @Test
     fun convertCoffeeDataToCoffeeResponseList(){
         val result = CoffeeAdapter.toResponse(coffeeList)
-        assertEquals(coffeeResponseList, result)
+        assertEquals(CoffeeListResponse(coffeeResponseList), result)
     }
 
 }

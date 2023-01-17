@@ -8,9 +8,9 @@ import joebarker.repository.response.CoffeeResponse
 class CoffeeAdapter {
 
     companion object{
-        fun toData(coffeeList: CoffeeListResponse?): List<Coffee> {
+        fun toData(coffees: List<CoffeeResponse>?): List<Coffee> {
             val result = mutableListOf<Coffee>()
-            coffeeList?.coffees?.forEach { coffee ->
+            coffees?.forEach { coffee ->
                 result.add(
                     Coffee(
                         coffee.id ?: 0,
@@ -24,9 +24,9 @@ class CoffeeAdapter {
             return result
         }
 
-        private fun toGson(value: List<String?>?): String {
+        private fun toGson(value: Array<String?>?): String {
             val gson = Gson()
-            val type = object : TypeToken<List<String>>() {}.type
+            val type = object : TypeToken<Array<String>>() {}.type
             return gson.toJson(value, type)
         }
 
@@ -46,8 +46,8 @@ class CoffeeAdapter {
             return CoffeeListResponse(result)
         }
 
-        private fun fromGson(gson: String?): List<String> {
-            val listType = object : TypeToken<ArrayList<String?>?>() {}.type
+        private fun fromGson(gson: String?): Array<String?> {
+            val listType = object : TypeToken<Array<String?>?>() {}.type
             return Gson().fromJson(gson, listType)
         }
     }

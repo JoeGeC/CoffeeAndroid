@@ -16,11 +16,10 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 
 class CoffeesRepositoryShould {
-    private val noDataResponse = CoffeeListResponse(listOf())
-    private val nullDataResponse = CoffeeListResponse(null)
-    private val coffeeResponses = CoffeeListResponse(listOf(
-        CoffeeResponse(0, "Title", "Description", listOf("Ingredient"), "Image Url")
-    ))
+    private val noDataResponse = listOf<CoffeeResponse>()
+    private val coffeeResponses = listOf(
+        CoffeeResponse(0, "Title", "Description", arrayOf("Ingredient"), "Image Url")
+    )
     private val remoteSuccessRepsonse = EitherResponse.Success(coffeeResponses)
     private val coffees = listOf(
         Coffee(0, "Title", "Description", listOf("Ingredient"), "Image Url")
@@ -31,7 +30,7 @@ class CoffeesRepositoryShould {
     @Test
     fun `Get list of coffees from local`(){
         val local = mock<CoffeeListLocal> {
-            onBlocking { getCoffeeList() } doReturn coffeeResponses
+            onBlocking { getCoffeeList() } doReturn CoffeeListResponse(coffeeResponses)
         }
         val remote = mock<CoffeeListRemote>()
         val repository = CoffeeListRepositoryImpl(local, remote)
@@ -43,12 +42,7 @@ class CoffeesRepositoryShould {
 
     @Test
     fun `Get list of coffees from remote when no local data`(){
-        getListOfCoffeesFromRemoteWhenLocalIs(noDataResponse)
-    }
-
-    @Test
-    fun `Get list of coffees from remote when null local data`(){
-        getListOfCoffeesFromRemoteWhenLocalIs(nullDataResponse)
+        getListOfCoffeesFromRemoteWhenLocalIs(CoffeeListResponse(noDataResponse))
     }
 
     @Test
@@ -80,14 +74,9 @@ class CoffeesRepositoryShould {
         returnErrorEntityWhen(noDataResponse)
     }
 
-    @Test
-    fun `Return error entity when local and remote have null data`(){
-        returnErrorEntityWhen(nullDataResponse)
-    }
-
-    private fun returnErrorEntityWhen(response: CoffeeListResponse?) {
+    private fun returnErrorEntityWhen(response: List<CoffeeResponse>?) {
         val local = mock<CoffeeListLocal> {
-            onBlocking { getCoffeeList() } doReturn response
+            onBlocking { getCoffeeList() } doReturn CoffeeListResponse(response)
         }
         val remote = mock<CoffeeListRemote> {
             onBlocking { getCoffeeList() } doReturn EitherResponse.Success(response)
