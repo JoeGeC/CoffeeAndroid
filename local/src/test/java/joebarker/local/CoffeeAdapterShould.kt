@@ -1,5 +1,7 @@
 package joebarker.local
 
+import joebarker.local.coffeeList.Coffee
+import joebarker.local.coffeeList.CoffeeAdapter
 import joebarker.repository.response.CoffeeListResponse
 import joebarker.repository.response.CoffeeResponse
 import org.junit.jupiter.api.Assertions.assertEquals

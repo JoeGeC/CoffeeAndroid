@@ -1,4 +1,4 @@
-package joebarker.local
+package joebarker.local.coffeeList
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -11,13 +11,15 @@ class CoffeeAdapter {
         fun toData(coffeeList: CoffeeListResponse?): List<Coffee> {
             val result = mutableListOf<Coffee>()
             coffeeList?.coffees?.forEach { coffee ->
-                result.add(Coffee(
-                    coffee.id ?: 0,
-                    coffee.title,
-                    coffee.description,
-                    toGson(coffee.ingredients),
-                    coffee.imageUrl
-                ))
+                result.add(
+                    Coffee(
+                        coffee.id ?: 0,
+                        coffee.title,
+                        coffee.description,
+                        toGson(coffee.ingredients),
+                        coffee.imageUrl
+                    )
+                )
             }
             return result
         }

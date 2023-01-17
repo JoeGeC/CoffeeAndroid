@@ -1,4 +1,4 @@
-package joebarker.local
+package joebarker.local.coffeeList
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

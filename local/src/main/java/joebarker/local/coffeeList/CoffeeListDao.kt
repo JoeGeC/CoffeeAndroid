@@ -1,10 +1,8 @@
-package joebarker.local
+package joebarker.local.coffeeList
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import joebarker.repository.response.CoffeeListResponse
-import joebarker.repository.response.CoffeeResponse
 
 @Dao
 interface CoffeeListDao {

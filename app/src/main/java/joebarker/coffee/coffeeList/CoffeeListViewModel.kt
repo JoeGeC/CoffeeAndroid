@@ -2,6 +2,7 @@ package joebarker.coffee.coffeeList
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import joebarker.coffee.config
 import joebarker.domain.boundary.presentation.GetCoffeeListUseCase
 import joebarker.domain.entity.Coffee
 import kotlinx.coroutines.CoroutineDispatcher
@@ -13,7 +14,7 @@ import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.launch
 
 class CoffeeListViewModel(
-    private val useCase: GetCoffeeListUseCase
+    private val useCase: GetCoffeeListUseCase = config.coffeeListUseCase
 ) : ViewModel(){
     private val _isLoading = MutableStateFlow(true)
     val isLoading: StateFlow<Boolean> = _isLoading

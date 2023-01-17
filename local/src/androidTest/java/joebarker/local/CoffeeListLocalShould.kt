@@ -3,6 +3,9 @@ package joebarker.local
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
+import joebarker.local.coffeeList.Coffee
+import joebarker.local.coffeeList.CoffeeDatabase
+import joebarker.local.coffeeList.CoffeeListLocalImpl
 import joebarker.repository.response.CoffeeListResponse
 import joebarker.repository.response.CoffeeResponse
 import org.junit.Assert.assertEquals

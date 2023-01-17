@@ -1,4 +1,4 @@
-package joebarker.local
+package joebarker.local.coffeeList
 
 import joebarker.repository.boundary.local.CoffeeListLocal
 import joebarker.repository.response.CoffeeListResponse
