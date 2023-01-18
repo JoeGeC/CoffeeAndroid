@@ -11,4 +11,5 @@ data class Coffee(
     @ColumnInfo(name = "description") val description: String?,
     @ColumnInfo(name = "ingredients") val ingredients: String?,
     @ColumnInfo(name = "image_url") val image_url: String?,
+    @ColumnInfo(name = "liked") val liked: Boolean?,
 )

@@ -17,7 +17,7 @@ class CoffeeListViewModelShould {
 
     @Test
     fun `Get coffee list from use case`(){
-        val expected = listOf(Coffee(0, "title", "description", listOf("ingredient"), "image url"))
+        val expected = listOf(Coffee(0, "title", "description", listOf("ingredient"), "image url", false))
         val result = Either.Success(expected)
         val useCase = mock<GetCoffeeListUseCase>{
             onBlocking { getCoffeeList() }.doReturn(result)

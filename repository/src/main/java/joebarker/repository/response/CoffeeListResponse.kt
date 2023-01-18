@@ -15,7 +15,8 @@ data class CoffeeListResponse(
                     response.title ?: "",
                     response.description ?: "",
                     convertIngredients(response.ingredients),
-                    response.image ?: ""
+                    response.image ?: "",
+                    response.liked ?: false
                 )
             )
         }
@@ -38,6 +39,7 @@ data class CoffeeListResponse(
                 || coffee.title != other.coffees?.get(i)?.title
                 || coffee.description != other.coffees?.get(i)?.description
                 || coffee.image != other.coffees?.get(i)?.image
+                || coffee.liked != other.coffees?.get(i)?.liked
                 || !matchingStringList(coffee.ingredients, other.coffees?.get(i)?.ingredients)
             ) return false
         }
@@ -49,5 +51,9 @@ data class CoffeeListResponse(
             if(s != right?.get(i)) return false
         }
         return true
+    }
+
+    override fun hashCode(): Int {
+        return coffees?.hashCode() ?: 0
     }
 }

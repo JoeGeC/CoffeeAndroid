@@ -6,4 +6,5 @@ data class CoffeeResponse(
     val description: String?,
     val ingredients: Array<String?>?,
     val image: String?,
+    val liked: Boolean?
 )

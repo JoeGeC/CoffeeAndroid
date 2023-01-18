@@ -15,14 +15,14 @@ import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 
-class CoffeesRepositoryShould {
+class CoffeeListRepositoryShould {
     private val noDataResponse = listOf<CoffeeResponse>()
     private val coffeeResponses = listOf(
-        CoffeeResponse(0, "Title", "Description", arrayOf("Ingredient"), "Image Url")
+        CoffeeResponse(0, "Title", "Description", arrayOf("Ingredient"), "Image Url", false)
     )
     private val remoteSuccessRepsonse = EitherResponse.Success(coffeeResponses)
     private val coffees = listOf(
-        Coffee(0, "Title", "Description", listOf("Ingredient"), "Image Url")
+        Coffee(0, "Title", "Description", listOf("Ingredient"), "Image Url", false)
     )
     private val expectedSuccess = Either.Success(coffees)
     private val expectedFailure = Either.Failure(ErrorEntity("error"))

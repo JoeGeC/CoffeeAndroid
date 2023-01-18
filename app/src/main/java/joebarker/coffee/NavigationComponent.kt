@@ -3,6 +3,7 @@ package joebarker.coffee
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -12,7 +13,9 @@ import joebarker.coffee.ui.CoffeeListPage
 import joebarker.coffee.viewModel.CoffeeListViewModel
 import joebarker.coffee.ui.CoffeeDetailsPage
 import joebarker.coffee.ui.CoffeeReviewPage
+import joebarker.coffee.viewModel.CoffeeDetailsViewModel
 import joebarker.coffee.viewModel.CoffeeReviewViewModel
+import joebarker.domain.entity.Coffee
 
 @Composable
 fun NavigationComponent() {
@@ -24,7 +27,6 @@ fun NavigationComponent() {
         startDestination = "coffeeList"
     ) {
         val coffeeId = "coffeeId"
-        val coffeeName = "coffeeName"
         composable("coffeeList") {
             CoffeeListPage(navController, coffeeListViewModel)
         }
@@ -32,21 +34,30 @@ fun NavigationComponent() {
             route = "coffeeDetails/{$coffeeId}",
             arguments = listOf(navArgument(coffeeId) { type = NavType.LongType })
         ) { backStackEntry ->
-            CoffeeDetailsPage(navController, backStackEntry.arguments?.getLong(coffeeId), coffeeListViewModel)
+            val coffee = getCoffee(coffeeListViewModel, backStackEntry.arguments?.getLong(coffeeId), navController)
+            val viewModel = viewModel<CoffeeDetailsViewModel>()
+            CoffeeDetailsPage(navController, coffee, viewModel)
         }
         composable(
-            route = "coffeeReview/{$coffeeId}/{$coffeeName}",
+            route = "coffeeReview/{$coffeeId}",
             arguments = listOf(
                 navArgument(coffeeId) { type = NavType.LongType },
-                navArgument(coffeeName) { type = NavType.StringType }
             )
         ) { backStackEntry ->
+            val coffee = getCoffee(coffeeListViewModel, backStackEntry.arguments?.getLong(coffeeId), navController)
             val coffeeReviewViewModel = viewModel<CoffeeReviewViewModel>()
-            CoffeeReviewPage(navController,
-                backStackEntry.arguments?.getLong(coffeeId),
-                backStackEntry.arguments?.getString(coffeeName),
-                coffeeReviewViewModel
-            )
+            CoffeeReviewPage(navController, coffee, coffeeReviewViewModel)
         }
     }
+}
+
+@Composable
+fun getCoffee(
+    viewModel: CoffeeListViewModel,
+    coffeeId: Long?,
+    navController: NavHostController
+): Coffee {
+    val coffee = viewModel.coffeeList?.firstOrNull { coffee -> coffee.id == coffeeId }
+    if (coffee == null) navController.navigateUp()
+    return coffee!!
 }

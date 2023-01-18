@@ -13,8 +13,8 @@ class GetCoffeesUseCaseShould {
     @Test
     fun `Get coffee list from repository`(){
         val expected = Either.Success(listOf(
-            Coffee(0, "First Title", "First Description", listOf("First Ingredient"), "First Image Url"),
-            Coffee(1, "Second Title", "Second Description", listOf("Second Ingredient 1", "Second Ingredient 2"), "Second Image Url"),
+            Coffee(0, "First Title", "First Description", listOf("First Ingredient"), "First Image Url", false),
+            Coffee(1, "Second Title", "Second Description", listOf("Second Ingredient 1", "Second Ingredient 2"), "Second Image Url", false),
         ))
         val repository = mock<CoffeeListRepository> {
             onBlocking { getCoffeeList() } doReturn expected

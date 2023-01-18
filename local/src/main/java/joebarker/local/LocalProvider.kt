@@ -6,7 +6,10 @@ import joebarker.local.coffeeList.CoffeeDatabase
 import joebarker.local.coffeeList.CoffeeListLocalImpl
 
 class LocalProvider(context: Context) {
-    private val coffeeListDatabase = Room.databaseBuilder(context, CoffeeDatabase::class.java, "coffeedatabase").build()
+    private val coffeeListDatabase = Room
+        .databaseBuilder(context, CoffeeDatabase::class.java, "coffeedatabase")
+        .fallbackToDestructiveMigration()
+        .build()
 
     val coffeeListLocal by lazy { CoffeeListLocalImpl(coffeeListDatabase) }
 }

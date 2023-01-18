@@ -17,7 +17,8 @@ class CoffeeAdapter {
                         coffee.title,
                         coffee.description,
                         toGson(coffee.ingredients),
-                        coffee.image
+                        coffee.image,
+                        coffee.liked
                     )
                 )
             }
@@ -39,7 +40,8 @@ class CoffeeAdapter {
                         coffee.title,
                         coffee.description,
                         fromGson(coffee.ingredients),
-                        coffee.image_url
+                        coffee.image_url,
+                        coffee.liked
                     )
                 )
             }

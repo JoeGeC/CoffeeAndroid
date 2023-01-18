@@ -1,6 +1,7 @@
 package joebarker.coffee.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
@@ -15,17 +16,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
-import joebarker.coffee.viewModel.CoffeeListViewModel
-import joebarker.domain.entity.Coffee
 import joebarker.coffee.R
+import joebarker.coffee.viewModel.CoffeeDetailsViewModel
+import joebarker.domain.entity.Coffee
 
 @Composable
 fun CoffeeDetailsPage(
     navController: NavHostController,
-    coffeeId: Long?,
-    viewModel: CoffeeListViewModel
+    coffee: Coffee,
+    viewModel: CoffeeDetailsViewModel
 ) {
-    val coffee = getCoffee(viewModel, coffeeId, navController) ?: return
     BackButton(navController)
     Column(
         Modifier.fillMaxSize(),
@@ -41,13 +41,13 @@ fun CoffeeDetailsPage(
                 .clip(CircleShape)
                 .fillMaxSize()
         )
-        Row {
+        Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
                 text = coffee.title,
                 fontSize = 24.sp,
-                modifier = Modifier.padding(top = 16.dp)
+                modifier = Modifier.padding(top = 16.dp, end = 16.dp)
             )
-            Heart(coffee.liked)
+            Heart(coffee.liked) { liked -> viewModel.likeCoffee(coffee.id, liked) }
         }
         Text(
             text = coffee.description,
@@ -61,7 +61,7 @@ fun CoffeeDetailsPage(
                 .padding(bottom = 16.dp)
         )
         Button(
-            onClick = { navController.navigate("coffeeReview/$coffeeId/${coffee.title}") }
+            onClick = { navController.navigate("coffeeReview/${coffee.id}") }
         ) {
             Text(text = "Review")
         }
@@ -69,28 +69,19 @@ fun CoffeeDetailsPage(
 }
 
 @Composable
-fun Heart(liked: Boolean) {
-    if(liked) {
+fun Heart(liked: Boolean?, modifier: Modifier = Modifier, onClick: (liked: Boolean) -> Unit) {
+    if(liked == true) {
         Image(
             painter = painterResource(R.drawable.heart_full),
-            contentDescription = "Like button shaped like a full heart"
+            contentDescription = "Like button shaped like a full heart",
+            modifier = modifier.clickable { onClick.invoke(false) }
         )
     }
     else {
         Image(
             painter = painterResource(R.drawable.heart_empty),
-            contentDescription = "Like button shaped like an empty heart"
+            contentDescription = "Like button shaped like an empty heart",
+            modifier = modifier.clickable { onClick.invoke(true) }
         )
     }
-}
-
-@Composable
-fun getCoffee(
-    viewModel: CoffeeListViewModel,
-    coffeeId: Long?,
-    navController: NavHostController
-): Coffee? {
-    val coffee = viewModel.coffeeList?.firstOrNull { coffee -> coffee.id == coffeeId }
-    if (coffee == null) navController.navigateUp()
-    return coffee
 }

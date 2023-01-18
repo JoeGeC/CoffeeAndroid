@@ -16,14 +16,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import joebarker.coffee.viewModel.CoffeeReviewViewModel
+import joebarker.domain.entity.Coffee
 import joebarker.domain.entity.CoffeeReview
 import kotlinx.coroutines.Dispatchers
 
 @Composable
 fun CoffeeReviewPage(
     navController: NavHostController,
-    coffeeId: Long?,
-    coffeeName: String?,
+    coffee: Coffee,
     viewModel: CoffeeReviewViewModel
 ) {
     val isLoading by viewModel.isLoading.collectAsState()
@@ -33,7 +33,7 @@ fun CoffeeReviewPage(
         isLoading -> LoadingUi()
         isError -> ErrorUi(navController)
         successfulSubmit -> SuccessfulSubmit(navController)
-        else -> CoffeeReviewUi(navController, viewModel, coffeeName, coffeeId)
+        else -> CoffeeReviewUi(navController, viewModel, coffee)
     }
 }
 
@@ -47,8 +47,7 @@ fun SuccessfulSubmit(navController: NavHostController) {
 private fun CoffeeReviewUi(
     navController: NavHostController,
     coffeeReviewViewModel: CoffeeReviewViewModel,
-    coffeeName: String?,
-    coffeeId: Long?
+    coffee: Coffee,
 ) {
     BackButton(navController)
     Column(
@@ -63,7 +62,7 @@ private fun CoffeeReviewUi(
         val showNameError by coffeeReviewViewModel.nameError.collectAsState()
         val showRatingError by coffeeReviewViewModel.ratingError.collectAsState()
         Text(
-            text = "Review $coffeeName",
+            text = "Review ${coffee.title}",
             fontSize = 24.sp
         )
         ErrorTextField(
@@ -90,7 +89,7 @@ private fun CoffeeReviewUi(
         Button(
             onClick = {
                 coffeeReviewViewModel.submitReview(
-                    CoffeeReview(coffeeId, name, date, description, rating),
+                    CoffeeReview(coffee.id, name, date, description, rating),
                     Dispatchers.Unconfined
                 )
             },

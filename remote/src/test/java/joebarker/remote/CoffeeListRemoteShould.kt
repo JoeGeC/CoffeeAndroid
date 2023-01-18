@@ -14,7 +14,7 @@ import retrofit2.mock.Calls
 class CoffeeListRemoteShould {
     @Test
     fun `Return coffee list response on successful call`(){
-        val response = listOf(CoffeeResponse(0, "title", "description", arrayOf(), "image url"))
+        val response = listOf(CoffeeResponse(0, "title", "description", arrayOf(), "image url", false))
         val remoteCalls = mock<CoffeeListRemoteCalls> {
             on { retrieveCoffees() }.doReturn(Calls.response(response))
         }

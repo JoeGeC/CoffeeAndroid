@@ -17,12 +17,12 @@ class CoffeeListLocalShould {
     private val local = CoffeeListLocalImpl(database)
     private val dao = database.coffeeListDao()
     private val coffeeListResponse = listOf(
-        CoffeeResponse(0, "title1", "description1", arrayOf(), "image url1"),
-        CoffeeResponse(1, "title2", "description2", arrayOf(), "image url2")
+        CoffeeResponse(0, "title1", "description1", arrayOf(), "image url1", false),
+        CoffeeResponse(1, "title2", "description2", arrayOf(), "image url2", true)
     )
     private val coffeesFromDatabase = listOf(
-        Coffee(0, "title1", "description1", "[]", "image url1"),
-        Coffee(1, "title2", "description2", "[]", "image url2")
+        Coffee(0, "title1", "description1", "[]", "image url1", false),
+        Coffee(1, "title2", "description2", "[]", "image url2", true)
     )
 
     @Test
