@@ -14,6 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import joebarker.coffee.viewModel.CoffeeReviewViewModel
+import joebarker.domain.entity.CoffeeReview
+import kotlinx.coroutines.Dispatchers
 
 @Composable
 fun CoffeeReviewPage(
@@ -31,7 +33,7 @@ fun CoffeeReviewPage(
         var name by rememberSaveable { mutableStateOf("") }
         var date by rememberSaveable { mutableStateOf("") }
         var description by rememberSaveable { mutableStateOf("") }
-        var rating by rememberSaveable { mutableStateOf(1) }
+        var rating by rememberSaveable { mutableStateOf(0) }
         Text(
             text = "Review $coffeeName",
             fontSize = 24.sp
@@ -57,7 +59,10 @@ fun CoffeeReviewPage(
         DatePicker { _, year, month, day -> date = "$year-$month-$day" }
         Rating(rating) { rating = it }
         Button(
-            onClick = { coffeeReviewViewModel.submitReview(coffeeId, name, date, description, rating) }) {
+            onClick = { coffeeReviewViewModel.submitReview(
+                CoffeeReview(coffeeId, name, date, description, rating),
+                Dispatchers.Unconfined
+            ) }) {
             Text(text = "Submit")
         }
     }
