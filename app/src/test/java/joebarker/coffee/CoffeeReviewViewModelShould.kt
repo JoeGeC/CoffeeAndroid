@@ -11,9 +11,11 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
+import org.mockito.kotlin.verifyNoInteractions
 
 class CoffeeReviewViewModelShould {
     private val review = CoffeeReview(1, "Joe", "2023-01-17", "Description", 10)
+    private val emptyReview = CoffeeReview(0, "", "", "", 0)
 
     @Test
     fun `Submit review to use case`(){
@@ -29,6 +31,7 @@ class CoffeeReviewViewModelShould {
         assertTrue(viewModel.successfulSubmit.value)
         assertFalse(viewModel.isLoading.value)
         assertFalse(viewModel.error.value)
+        assertFalse(viewModel.nameError.value)
     }
 
     @Test
@@ -52,9 +55,21 @@ class CoffeeReviewViewModelShould {
         val useCase = mock<CoffeeReviewUseCase>()
         val viewModel = CoffeeReviewViewModel(useCase)
 
-        viewModel.submitReview(review)
+        viewModel.submitReview(emptyReview)
 
-        assertTrue(viewModel.incorrectName.value)
+        assertTrue(viewModel.nameError.value)
+        verifyNoInteractions(useCase)
+    }
+
+    @Test
+    fun `Flag if rating wasn't filled in`(){
+        val useCase = mock<CoffeeReviewUseCase>()
+        val viewModel = CoffeeReviewViewModel(useCase)
+
+        viewModel.submitReview(emptyReview)
+
+        assertTrue(viewModel.ratingError.value)
+        verifyNoInteractions(useCase)
     }
 
 }

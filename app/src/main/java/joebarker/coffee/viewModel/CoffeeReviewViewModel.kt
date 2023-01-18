@@ -12,13 +12,16 @@ import kotlinx.coroutines.launch
 class CoffeeReviewViewModel(
     private val useCase: CoffeeReviewUseCase
 ) : BaseViewModel() {
-    private val _incorrectName = MutableStateFlow(false)
-    val incorrectName: StateFlow<Boolean> = _incorrectName
+    private val _nameError = MutableStateFlow(false)
+    val nameError: StateFlow<Boolean> = _nameError
+    private val _ratingError = MutableStateFlow(false)
+    val ratingError: StateFlow<Boolean> = _ratingError
     private val _successfulSubmit = MutableStateFlow(false)
     val successfulSubmit: StateFlow<Boolean> = _successfulSubmit
 
     fun submitReview(review: CoffeeReview, dispatcher: CoroutineDispatcher = Dispatchers.IO) {
-        _incorrectName.value = true
+        _isLoading.value = true
+        if(!isValid(review)) return
         viewModelScope.launch(dispatcher) {
             val result = useCase.submitReview(review)
             if(result.isSuccess){
@@ -26,6 +29,30 @@ class CoffeeReviewViewModel(
             } else _error.value = true
             _isLoading.value = false
         }
+    }
+
+    //Note: To save some time, I haven't validated the other fields.
+    //I validated these two because they're not restricted by the UI anyways
+    private fun isValid(review: CoffeeReview): Boolean {
+        val isUserNameValid = isUserNameValid(review.userName)
+        val isRatingValid = isRatingValid(review.rating)
+        return isUserNameValid && isRatingValid
+    }
+
+    private fun isUserNameValid(userName: String): Boolean {
+        if (userName.isBlank()) {
+            _nameError.value = true
+            return false
+        }
+        return true
+    }
+
+    private fun isRatingValid(rating: Int): Boolean {
+        if (rating == 0) {
+            _ratingError.value = true
+            return false
+        }
+        return true
     }
 
 }
