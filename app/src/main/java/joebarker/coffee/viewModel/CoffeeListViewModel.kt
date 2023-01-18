@@ -10,8 +10,8 @@ import kotlinx.coroutines.launch
 
 class CoffeeListViewModel(
     private val useCase: GetCoffeeListUseCase = config.coffeeListUseCase
-) : BaseViewModel(){
-    var coffeeList: List<Coffee>? = null
+) : BaseViewModel(), CoffeeListHolder{
+    override var coffeeList: List<Coffee>? = null
 
     fun fetchCoffeeList(dispatcher: CoroutineDispatcher = Dispatchers.IO) {
         viewModelScope.launch(dispatcher) {

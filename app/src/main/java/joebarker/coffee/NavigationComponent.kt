@@ -13,7 +13,7 @@ import joebarker.coffee.ui.CoffeeListPage
 import joebarker.coffee.viewModel.CoffeeListViewModel
 import joebarker.coffee.ui.CoffeeDetailsPage
 import joebarker.coffee.ui.CoffeeReviewPage
-import joebarker.coffee.viewModel.CoffeeDetailsViewModel
+import joebarker.coffee.viewModel.LikeCoffeeViewModel
 import joebarker.coffee.viewModel.CoffeeReviewViewModel
 import joebarker.domain.entity.Coffee
 
@@ -35,7 +35,7 @@ fun NavigationComponent() {
             arguments = listOf(navArgument(coffeeId) { type = NavType.LongType })
         ) { backStackEntry ->
             val coffee = getCoffee(coffeeListViewModel, backStackEntry.arguments?.getLong(coffeeId), navController)
-            val viewModel = viewModel<CoffeeDetailsViewModel>()
+            val viewModel = viewModel<LikeCoffeeViewModel>()
             CoffeeDetailsPage(navController, coffee, viewModel)
         }
         composable(

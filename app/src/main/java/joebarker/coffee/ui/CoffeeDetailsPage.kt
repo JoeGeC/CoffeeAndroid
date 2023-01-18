@@ -17,14 +17,14 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import joebarker.coffee.R
-import joebarker.coffee.viewModel.CoffeeDetailsViewModel
+import joebarker.coffee.viewModel.LikeCoffeeViewModel
 import joebarker.domain.entity.Coffee
 
 @Composable
 fun CoffeeDetailsPage(
     navController: NavHostController,
     coffee: Coffee,
-    viewModel: CoffeeDetailsViewModel
+    viewModel: LikeCoffeeViewModel
 ) {
     BackButton(navController)
     Column(
