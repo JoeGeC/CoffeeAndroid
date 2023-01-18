@@ -20,9 +20,13 @@ class CoffeeReviewViewModel(
     private val _successfulSubmit = MutableStateFlow(false)
     val successfulSubmit: StateFlow<Boolean> = _successfulSubmit
 
+    init {
+        _isLoading.value = false
+    }
+
     fun submitReview(review: CoffeeReview, dispatcher: CoroutineDispatcher = Dispatchers.IO) {
-        _isLoading.value = true
         if(!isValid(review)) return
+        _isLoading.value = true
         viewModelScope.launch(dispatcher) {
             val result = useCase.submitReview(review)
             if(result.isSuccess){
@@ -45,6 +49,7 @@ class CoffeeReviewViewModel(
             _nameError.value = true
             return false
         }
+        _nameError.value = false
         return true
     }
 
@@ -53,6 +58,7 @@ class CoffeeReviewViewModel(
             _ratingError.value = true
             return false
         }
+        _ratingError.value = false
         return true
     }
 

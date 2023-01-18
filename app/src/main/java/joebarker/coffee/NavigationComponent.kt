@@ -41,7 +41,7 @@ fun NavigationComponent() {
                 navArgument(coffeeName) { type = NavType.StringType }
             )
         ) { backStackEntry ->
-            val coffeeReviewViewModel = viewModel<CoffeeReviewViewModel>(viewModelStoreOwner = viewModelStoreOwner)
+            val coffeeReviewViewModel = viewModel<CoffeeReviewViewModel>()
             CoffeeReviewPage(navController,
                 backStackEntry.arguments?.getLong(coffeeId),
                 backStackEntry.arguments?.getString(coffeeName),

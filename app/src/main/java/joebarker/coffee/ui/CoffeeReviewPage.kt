@@ -2,6 +2,7 @@ package joebarker.coffee.ui
 
 import android.widget.CalendarView
 import android.widget.CalendarView.OnDateChangeListener
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -11,6 +12,7 @@ import androidx.navigation.NavHostController
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import joebarker.coffee.viewModel.CoffeeReviewViewModel
@@ -22,7 +24,31 @@ fun CoffeeReviewPage(
     navController: NavHostController,
     coffeeId: Long?,
     coffeeName: String?,
-    coffeeReviewViewModel: CoffeeReviewViewModel
+    viewModel: CoffeeReviewViewModel
+) {
+    val isLoading by viewModel.isLoading.collectAsState()
+    val isError by viewModel.error.collectAsState()
+    val successfulSubmit by viewModel.successfulSubmit.collectAsState()
+    when {
+        isLoading -> LoadingUi()
+        isError -> ErrorUi(navController)
+        successfulSubmit -> SuccessfulSubmit(navController)
+        else -> CoffeeReviewUi(navController, viewModel, coffeeName, coffeeId)
+    }
+}
+
+@Composable
+fun SuccessfulSubmit(navController: NavHostController) {
+    navController.navigateUp()
+    Toast.makeText(navController.context, "Successful submit!", Toast.LENGTH_SHORT).show()
+}
+
+@Composable
+private fun CoffeeReviewUi(
+    navController: NavHostController,
+    coffeeReviewViewModel: CoffeeReviewViewModel,
+    coffeeName: String?,
+    coffeeId: Long?
 ) {
     BackButton(navController)
     Column(
@@ -34,19 +60,22 @@ fun CoffeeReviewPage(
         var date by rememberSaveable { mutableStateOf("") }
         var description by rememberSaveable { mutableStateOf("") }
         var rating by rememberSaveable { mutableStateOf(0) }
+        val showNameError by coffeeReviewViewModel.nameError.collectAsState()
+        val showRatingError by coffeeReviewViewModel.ratingError.collectAsState()
         Text(
             text = "Review $coffeeName",
             fontSize = 24.sp
         )
-        TextField(
+        ErrorTextField(
             value = name,
-            onValueChange = { name = it },
-            label = { Text("Your name") },
+            errorText = "Please enter a name",
+            labelText = "Your name",
+            showError = showNameError,
             modifier = Modifier
-                .padding(top = 16.dp)
-                .padding(horizontal = 16.dp)
                 .fillMaxWidth()
-        )
+                .padding(horizontal = 16.dp)
+                .padding(top = 16.dp)
+        ) { newText -> name = newText }
         TextField(
             value = description,
             onValueChange = { description = it },
@@ -57,12 +86,16 @@ fun CoffeeReviewPage(
                 .fillMaxWidth()
         )
         DatePicker { _, year, month, day -> date = "$year-$month-$day" }
-        Rating(rating) { rating = it }
+        Rating(rating, showRatingError) { rating = it }
         Button(
-            onClick = { coffeeReviewViewModel.submitReview(
-                CoffeeReview(coffeeId, name, date, description, rating),
-                Dispatchers.Unconfined
-            ) }) {
+            onClick = {
+                coffeeReviewViewModel.submitReview(
+                    CoffeeReview(coffeeId, name, date, description, rating),
+                    Dispatchers.Unconfined
+                )
+            },
+            modifier = Modifier.padding(top = 16.dp)
+        ) {
             Text(text = "Submit")
         }
     }
@@ -78,28 +111,45 @@ fun DatePicker(listener: OnDateChangeListener) {
 }
 
 @Composable
-fun Rating(rating: Int, listener: (newRating: Int) -> Unit) {
+fun Rating(
+    rating: Int,
+    showError: Boolean,
+    listener: (newRating: Int) -> Unit
+) {
     val listItems = IntArray(10) { 1 * it + 1 }
     var expanded by remember { mutableStateOf(false) }
-    Box {
-        Text(
-            text = "Rating: $rating",
-            modifier = Modifier.clickable { expanded = true }
-        )
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false }
-        ) {
-            listItems.forEachIndexed { _, itemValue ->
-                DropdownMenuItem(
-                    onClick = {
-                        listener.invoke(itemValue)
-                        expanded = false
-                    },
-                ) {
-                    Text(text = itemValue.toString())
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box {
+            Text(
+                text = "Rating: $rating",
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .clickable { expanded = true }
+                    .fillMaxWidth()
+            )
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                listItems.forEachIndexed { _, itemValue ->
+                    DropdownMenuItem(
+                        onClick = {
+                            listener.invoke(itemValue)
+                            expanded = false
+                        },
+                    ) {
+                        Text(text = itemValue.toString())
+                    }
                 }
             }
         }
+        ErrorText(
+            showError,
+            "Please choose a rating",
+            textAlign = TextAlign.Center,
+        )
     }
 }

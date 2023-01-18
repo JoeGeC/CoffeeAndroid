@@ -24,7 +24,7 @@ fun CoffeeListPage(navController: NavHostController, viewModel: CoffeeListViewMo
     val isError by viewModel.error.collectAsState()
     when {
         isLoading -> LoadingUi()
-        isError -> ErrorUi()
+        isError -> ErrorUi(navController)
         else -> CoffeeListUi(viewModel.coffeeList!!, navController)
     }
 }

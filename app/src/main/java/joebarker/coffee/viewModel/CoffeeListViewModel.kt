@@ -15,6 +15,7 @@ class CoffeeListViewModel(
 
     fun fetchCoffeeList(dispatcher: CoroutineDispatcher = Dispatchers.IO) {
         viewModelScope.launch(dispatcher) {
+            _isLoading.value = true
             val result = useCase.getCoffeeList()
             if(result.isSuccess) coffeeList = result.body
             else _error.value = true

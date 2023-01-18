@@ -10,10 +10,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 
-@Preview
 @Composable
-fun ErrorUi() {
+fun ErrorUi(navController: NavHostController) {
+    BackButton(navController)
     Column(
         Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
