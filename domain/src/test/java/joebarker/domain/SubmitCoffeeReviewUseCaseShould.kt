@@ -3,7 +3,7 @@ package joebarker.domain
 import joebarker.domain.boundary.repository.CoffeeReviewRepository
 import joebarker.domain.entity.CoffeeReview
 import joebarker.domain.entity.Either
-import joebarker.domain.useCase.CoffeeReviewUseCaseImpl
+import joebarker.domain.useCase.ReviewCoffeeUseCaseImpl
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.doReturn
@@ -18,7 +18,7 @@ class SubmitCoffeeReviewUseCaseShould {
         val repository = mock<CoffeeReviewRepository> {
             onBlocking { submitReview(review) } doReturn expected
         }
-        val useCase = CoffeeReviewUseCaseImpl(repository)
+        val useCase = ReviewCoffeeUseCaseImpl(repository)
 
         val result = useCase.submitReview(review)
 

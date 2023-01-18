@@ -6,7 +6,7 @@ import joebarker.domain.entity.CoffeeReview
 import joebarker.domain.entity.Either
 import joebarker.domain.entity.ErrorEntity
 
-class CoffeeReviewUseCaseImpl(
+class ReviewCoffeeUseCaseImpl(
     private val repository: CoffeeReviewRepository
 ): CoffeeReviewUseCase {
 

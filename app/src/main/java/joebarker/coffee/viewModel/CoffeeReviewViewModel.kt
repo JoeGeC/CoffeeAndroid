@@ -1,6 +1,7 @@
 package joebarker.coffee.viewModel
 
 import androidx.lifecycle.viewModelScope
+import joebarker.coffee.config
 import joebarker.domain.boundary.presentation.CoffeeReviewUseCase
 import joebarker.domain.entity.CoffeeReview
 import kotlinx.coroutines.CoroutineDispatcher
@@ -10,7 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class CoffeeReviewViewModel(
-    private val useCase: CoffeeReviewUseCase
+    private val useCase: CoffeeReviewUseCase = config.coffeeReviewUseCase
 ) : BaseViewModel() {
     private val _nameError = MutableStateFlow(false)
     val nameError: StateFlow<Boolean> = _nameError

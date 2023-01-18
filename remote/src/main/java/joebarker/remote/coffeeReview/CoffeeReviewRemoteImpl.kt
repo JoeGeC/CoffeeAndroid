@@ -7,7 +7,7 @@ import joebarker.repository.response.EitherResponse
 import joebarker.repository.response.ErrorResponse
 
 class CoffeeReviewRemoteImpl(
-    private var remoteCalls: CoffeeReviewRemoteCalls
+    private var remoteCalls: CoffeeReviewRemoteCalls = retrofit.create(CoffeeReviewRemoteCalls::class.java)
 ): BaseRemote(), CoffeeReviewRemote {
 
     override fun submitReview(review: CoffeeReviewResponse): EitherResponse<CoffeeReviewResponse?, ErrorResponse?> =
