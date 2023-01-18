@@ -17,7 +17,8 @@ class LikeCoffeeViewModel(
             _isLoading.value = true
             val result = useCase.likeCoffee(id, liked)
             if(result.isSuccess) updateCoffeeLike(id, liked)
-            _isLoading.value
+            else _error.value = true
+            _isLoading.value = false
         }
     }
 
