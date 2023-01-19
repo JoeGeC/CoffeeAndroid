@@ -50,6 +50,7 @@ private fun CoffeeReviewUi(
 ) {
     Column(
         modifier = Modifier
+            .padding(16.dp)
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
@@ -74,7 +75,6 @@ private fun CoffeeReviewUi(
             showError = showNameError,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp)
                 .padding(top = 16.dp)
         ) { newText -> name = newText }
 
@@ -83,7 +83,7 @@ private fun CoffeeReviewUi(
             onValueChange = { description = it },
             label = { Text("Description") },
             modifier = Modifier
-                .padding(16.dp)
+                .padding(vertical = 16.dp)
                 .height(200.dp)
                 .fillMaxWidth()
         )
@@ -94,6 +94,7 @@ private fun CoffeeReviewUi(
             label = "Rating: $rating",
             showError = showRatingError,
             errorLabel = "Please choose a rating",
+            modifier = Modifier.padding(top = 8.dp)
         ) { rating = it }
 
         Button(

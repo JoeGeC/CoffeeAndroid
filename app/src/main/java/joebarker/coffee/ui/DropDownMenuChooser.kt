@@ -15,6 +15,7 @@ import androidx.compose.ui.text.style.TextAlign
 @Composable
 fun DropDownMenuChooser(
     label: String,
+    modifier: Modifier = Modifier,
     showError: Boolean = false,
     errorLabel: String = "",
     listener: (newRating: Int) -> Unit
@@ -22,7 +23,7 @@ fun DropDownMenuChooser(
     val listItems = IntArray(10) { 1 * it + 1 }
     var expanded by remember { mutableStateOf(false) }
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box {
