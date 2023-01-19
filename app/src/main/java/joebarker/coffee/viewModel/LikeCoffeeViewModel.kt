@@ -1,6 +1,7 @@
 package joebarker.coffee.viewModel
 
 import androidx.lifecycle.viewModelScope
+import joebarker.coffee.config
 import joebarker.domain.boundary.presentation.LikeCoffeeUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -8,9 +9,13 @@ import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.launch
 
 class LikeCoffeeViewModel(
-    private val useCase: LikeCoffeeUseCase,
+    private val useCase: LikeCoffeeUseCase = config.likeCoffeeUseCase,
     val coffeeListHolder: CoffeeListHolder
 ) : BaseViewModel() {
+
+    init {
+        _isLoading.value = false
+    }
 
     fun likeCoffee(id: Long, liked: Boolean, dispatcher: CoroutineDispatcher = Dispatchers.IO) {
         viewModelScope.launch(dispatcher) {

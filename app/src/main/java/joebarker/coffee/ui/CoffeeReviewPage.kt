@@ -23,7 +23,7 @@ import kotlinx.coroutines.Dispatchers
 @Composable
 fun CoffeeReviewPage(
     navController: NavHostController,
-    coffee: Coffee,
+    coffee: Coffee?,
     viewModel: CoffeeReviewViewModel
 ) {
     val isLoading by viewModel.isLoading.collectAsState()
@@ -31,7 +31,7 @@ fun CoffeeReviewPage(
     val successfulSubmit by viewModel.successfulSubmit.collectAsState()
     when {
         isLoading -> LoadingUi()
-        isError -> ErrorUi(navController)
+        isError || coffee == null -> ErrorUi(navController)
         successfulSubmit -> SuccessfulSubmit(navController)
         else -> CoffeeReviewUi(navController, viewModel, coffee)
     }
