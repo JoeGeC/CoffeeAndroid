@@ -4,8 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -13,19 +11,24 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import joebarker.coffee.R
 import joebarker.coffee.getCoffee
 import joebarker.coffee.viewModel.CoffeeListHolder
 import joebarker.coffee.viewModel.LoadingViewModel
 
 @Composable
-fun LikeableHeart(viewModel: LoadingViewModel, coffeeListHolder: CoffeeListHolder, coffeeId: Long, onClick: (liked: Boolean) -> Unit) {
-    val isLoading by viewModel.isLoading.collectAsState()
+fun LikeableHeart(
+    loadingViewModel: LoadingViewModel,
+    coffeeListHolder: CoffeeListHolder,
+    coffeeId: Long,
+    modifier: Modifier = Modifier,
+    onClick: (liked: Boolean) -> Unit
+) {
+    val isLoading by loadingViewModel.isLoading.collectAsState()
     val coffee = getCoffee(coffeeListHolder, coffeeId, null)
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.width(30.dp).height(30.dp)
+        modifier = modifier
     ) {
         when {
             isLoading -> CircularProgressIndicator(modifier = Modifier.fillMaxSize())
