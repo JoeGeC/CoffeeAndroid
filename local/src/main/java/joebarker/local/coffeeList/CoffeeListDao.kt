@@ -1,9 +1,6 @@
 package joebarker.local.coffeeList
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 
 @Dao
 interface CoffeeListDao {
@@ -13,7 +10,7 @@ interface CoffeeListDao {
     @Query("SELECT * FROM coffee WHERE id LIKE :id")
     fun get(id: Long): Coffee
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertAll(vararg coffees: Coffee)
 
     @Update

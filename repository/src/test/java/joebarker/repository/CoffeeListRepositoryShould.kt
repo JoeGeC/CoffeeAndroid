@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
+import org.mockito.kotlin.verifyNoMoreInteractions
 
 class CoffeeListRepositoryShould {
     private val noDataResponse = listOf<CoffeeResponse>()
@@ -28,49 +29,69 @@ class CoffeeListRepositoryShould {
     private val expectedFailure = Either.Failure(ErrorEntity("error"))
 
     @Test
-    fun `Get list of coffees from local`(){
-        val local = mock<CoffeeListLocal> {
-            onBlocking { getCoffeeList() } doReturn CoffeeListResponse(coffeeResponses)
-        }
-        val remote = mock<CoffeeListRemote>()
-        val repository = CoffeeListRepositoryImpl(local, remote)
-
-        val result = repository.getCoffeeList()
-
-        assertEquals(expectedSuccess, result)
-    }
-
-    @Test
-    fun `Get list of coffees from remote when no local data`(){
-        getListOfCoffeesFromRemoteWhenLocalIs(CoffeeListResponse(noDataResponse))
-    }
-
-    @Test
-    fun `Get list of coffees from remote when local data response is null`(){
-        getListOfCoffeesFromRemoteWhenLocalIs(null)
-    }
-
-    private fun getListOfCoffeesFromRemoteWhenLocalIs(localResponse: CoffeeListResponse?) {
-        val local = mock<CoffeeListLocal> {
-            onBlocking { getCoffeeList() } doReturn localResponse
-        }
+    fun `Save to local on remote success`() {
+        val local = mock<CoffeeListLocal>()
         val remote = mock<CoffeeListRemote> {
             onBlocking { getCoffeeList() } doReturn remoteSuccessRepsonse
         }
         val repository = CoffeeListRepositoryImpl(local, remote)
 
-        val result = repository.getCoffeeList()
+        repository.getCoffeeList()
 
-        assertEquals(expectedSuccess, result)
+        verify(local).insert(coffeeResponses)
     }
 
     @Test
-    fun `Return error entity when local and remote are null`(){
+    fun `Don't save to local on remote failure`() {
+        val local = mock<CoffeeListLocal>()
+        val remote = mock<CoffeeListRemote> {
+            onBlocking { getCoffeeList() } doReturn EitherResponse.Failure()
+        }
+        val repository = CoffeeListRepositoryImpl(local, remote)
+
+        repository.getCoffeeList()
+
+        verify(local).getCoffeeList()
+        verifyNoMoreInteractions(local)
+    }
+
+    @Test
+    fun `Get list of coffees from local when no remote data`(){
+        getListOfCoffeesFromLocalWhenRemoteIs(EitherResponse.Failure(ErrorResponse("")))
+    }
+
+    @Test
+    fun `Get list of coffees from local when remote response is null`(){
+        getListOfCoffeesFromLocalWhenRemoteIs(null)
+    }
+
+    @Test
+    fun `Get list of coffees from local when remote response is successful`(){
+        getListOfCoffeesFromLocalWhenRemoteIs(remoteSuccessRepsonse)
+    }
+
+    private fun getListOfCoffeesFromLocalWhenRemoteIs(remoteResponse: EitherResponse<List<CoffeeResponse>, ErrorResponse>?) {
+        val local = mock<CoffeeListLocal> {
+            onBlocking { getCoffeeList() } doReturn CoffeeListResponse(coffeeResponses)
+        }
+        val remote = mock<CoffeeListRemote> {
+            onBlocking { getCoffeeList() } doReturn remoteResponse
+        }
+        val repository = CoffeeListRepositoryImpl(local, remote)
+
+        val result = repository.getCoffeeList()
+
+        assertEquals(expectedSuccess, result)
+        verify(remote).getCoffeeList()
+    }
+
+    @Test
+    fun `Return error entity when local and remote are successful but null`(){
         returnErrorEntityWhen(null)
     }
 
     @Test
-    fun `Return error entity when local and remote have no data`(){
+    fun `Return error entity when local and remote are successful but have no data`(){
         returnErrorEntityWhen(noDataResponse)
     }
 
@@ -88,33 +109,4 @@ class CoffeeListRepositoryShould {
         assertEquals(expectedFailure.isFailure, result.isFailure)
     }
 
-    @Test
-    fun `Return error entity when remote returns error`(){
-        val local = mock<CoffeeListLocal> {
-            onBlocking { getCoffeeList() } doReturn null
-        }
-        val remote = mock<CoffeeListRemote> {
-            onBlocking { getCoffeeList() } doReturn EitherResponse.Failure(ErrorResponse("error"))
-        }
-        val repository = CoffeeListRepositoryImpl(local, remote)
-
-        val result = repository.getCoffeeList()
-
-        assertEquals(expectedFailure.isFailure, result.isFailure)
-    }
-
-    @Test
-    fun `Save to local on remote success`() {
-        val local = mock<CoffeeListLocal> {
-            onBlocking { getCoffeeList() } doReturn null
-        }
-        val remote = mock<CoffeeListRemote> {
-            onBlocking { getCoffeeList() } doReturn remoteSuccessRepsonse
-        }
-        val repository = CoffeeListRepositoryImpl(local, remote)
-
-        repository.getCoffeeList()
-
-        verify(local).insert(coffeeResponses)
-    }
 }
