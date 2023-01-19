@@ -3,6 +3,8 @@ package joebarker.coffee.ui
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -46,9 +48,10 @@ private fun CoffeeReviewUi(
     coffeeReviewViewModel: CoffeeReviewViewModel,
     coffee: Coffee,
 ) {
-    BackButton(navController)
     Column(
-        Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -105,4 +108,5 @@ private fun CoffeeReviewUi(
             Text(text = "Submit")
         }
     }
+    BackButton(navController)
 }
