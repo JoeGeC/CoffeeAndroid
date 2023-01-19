@@ -1,9 +1,8 @@
 package joebarker.coffee.ui
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
@@ -11,9 +10,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.BiasAbsoluteAlignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import joebarker.coffee.R
 import joebarker.coffee.viewModel.CoffeeListViewModel
 import joebarker.domain.entity.Coffee
 
@@ -40,12 +44,30 @@ fun CoffeeListUi(coffeeList: List<Coffee>, navController: NavHostController) {
 
 @Composable
 fun CoffeeListItemUi(coffee: Coffee, navController: NavHostController) {
-    Box(modifier = Modifier.fillMaxWidth()
-        .clickable { navController.navigate("coffeeDetails/${coffee.id}") }
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { navController.navigate("coffeeDetails/${coffee.id}") }
     ){
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.width(40.dp).padding(start = 8.dp)
+        ) {
+            if (coffee.liked) {
+                Image(
+                    painter = painterResource(id = R.drawable.heart_full),
+                    contentDescription = "Image of a full heart",
+                    modifier = Modifier
+                        .width(20.dp)
+                        .height(20.dp)
+                )
+            }
+        }
         Text(
             text = coffee.title,
-            Modifier.padding(8.dp)
+            fontSize = 24.sp,
+            modifier = Modifier.padding(8.dp)
         )
     }
 }
