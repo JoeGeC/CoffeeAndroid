@@ -11,14 +11,12 @@ import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 
 class LikeCoffeeRepositoryShould {
+    private val id: Long = 1
 
     @Test
     fun `Update coffee locally and return success result`(){
         val response = EitherResponse.Success<Any>()
-        val id: Long = 1
-        val local = mock<LikeCoffeeLocal> {
-            onBlocking { likeCoffee(id, true) } doReturn response
-        }
+        val local = localMockReturns(response)
         val repository = LikeCoffeeRepositoryImpl(local)
 
         val result = repository.likeCoffee(id, true)
@@ -30,15 +28,18 @@ class LikeCoffeeRepositoryShould {
     @Test
     fun `Update coffee locally and return failure result`(){
         val response = EitherResponse.Failure<ErrorResponse>()
-        val id: Long = 1
-        val local = mock<LikeCoffeeLocal> {
-            onBlocking { likeCoffee(id, true) } doReturn response
-        }
+        val local = localMockReturns(response)
         val repository = LikeCoffeeRepositoryImpl(local)
 
         val result = repository.likeCoffee(id, true)
 
         val expected = Either.Failure(ErrorEntity(""))
         Assertions.assertEquals(expected, result)
+    }
+
+    private fun localMockReturns(response: EitherResponse<Any, ErrorResponse>): LikeCoffeeLocal {
+        return mock {
+            onBlocking { likeCoffee(id, true) } doReturn response
+        }
     }
 }
