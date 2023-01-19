@@ -21,6 +21,8 @@ import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import joebarker.coffee.R
 import joebarker.coffee.getCoffee
+import joebarker.coffee.viewModel.CoffeeListHolder
+import joebarker.coffee.viewModel.LoadingViewModel
 import joebarker.coffee.viewModel.LikeCoffeeViewModel
 import joebarker.domain.entity.Coffee
 
@@ -63,7 +65,7 @@ fun CoffeeDetailsUi(
                 fontSize = 24.sp,
                 modifier = Modifier.padding(top = 16.dp, end = 16.dp)
             )
-            Heart(viewModel, coffee.id) { liked -> viewModel.likeCoffee(coffee.id, liked) }
+            LikeableHeart(viewModel, viewModel.coffeeListHolder, coffee.id) { liked -> viewModel.likeCoffee(coffee.id, liked) }
         }
         Text(
             text = coffee.description,
@@ -80,34 +82,6 @@ fun CoffeeDetailsUi(
             onClick = { navController.navigate("coffeeReview/${coffee.id}") }
         ) {
             Text(text = "Review")
-        }
-    }
-}
-
-@Composable
-fun Heart(viewModel: LikeCoffeeViewModel, coffeeId: Long, onClick: (liked: Boolean) -> Unit) {
-    val isLoading by viewModel.isLoading.collectAsState()
-    val coffee = getCoffee(viewModel.coffeeListHolder, coffeeId, null)
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier.width(30.dp).height(30.dp)
-    ) {
-        when {
-            isLoading -> CircularProgressIndicator(modifier = Modifier.fillMaxSize())
-            coffee?.liked == true -> {
-                Image(
-                    painter = painterResource(R.drawable.heart_full),
-                    contentDescription = "Like button shaped like a full heart",
-                    modifier = Modifier.clickable { onClick.invoke(false) }.fillMaxSize()
-                )
-            }
-            else -> {
-                Image(
-                    painter = painterResource(R.drawable.heart_empty),
-                    contentDescription = "Like button shaped like an empty heart",
-                    modifier = Modifier.clickable { onClick.invoke(true) }.fillMaxSize()
-                )
-            }
         }
     }
 }
