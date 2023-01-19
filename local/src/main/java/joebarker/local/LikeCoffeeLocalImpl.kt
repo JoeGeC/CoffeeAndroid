@@ -9,10 +9,14 @@ class LikeCoffeeLocalImpl(
 ) {
 
     fun likeCoffee(id: Long, liked: Boolean): EitherResponse<Any, ErrorResponse> {
-        val coffee = database.coffeeListDao().get(id)
-        coffee.liked = liked
-        database.coffeeListDao().update(coffee)
-        return EitherResponse.Success()
+        return try{
+            val coffee = database.coffeeListDao().get(id)
+            coffee.liked = liked
+            database.coffeeListDao().update(coffee)
+            EitherResponse.Success()
+        } catch(e: Exception){
+            EitherResponse.Failure()
+        }
     }
 
 }
