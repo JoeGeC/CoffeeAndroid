@@ -16,11 +16,10 @@ class CoffeeListRepositoryImpl(
 ) : CoffeeListRepository {
 
     override suspend fun getCoffeeList(): Flow<List<Coffee>> {
-        val localResult = local.getCoffeeList()
         return remote.getCoffeeList()
-            .onStart { emit(localResult) }
+            .onStart { emit(local.getCoffeeList()) }
             .onEach { local.insert(it) }
-            .map { list -> convertCoffeeResponse(list) }
+            .map { convertCoffeeResponse(local.getCoffeeList()) }
     }
 
     private fun convertCoffeeResponse(list: List<CoffeeResponse>) = list.map { coffee ->
