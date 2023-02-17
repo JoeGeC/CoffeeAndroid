@@ -4,18 +4,14 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import joebarker.repository.boundary.local.CoffeeListLocal
 import joebarker.repository.response.CoffeeResponse
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 
 class CoffeeListLocalImpl(
     private val database: CoffeeDatabase
 ): CoffeeListLocal {
 
-    override fun getCoffeeList(): Flow<List<CoffeeResponse>>{
+    override fun getCoffeeList(): List<CoffeeResponse>{
         val listFromDatabase = database.coffeeListDao().getAll()
-        return listFromDatabase.map { list ->
-            list.map { coffee ->
+        return listFromDatabase.map { coffee ->
                 CoffeeResponse(
                     coffee.id,
                     coffee.title,
@@ -26,7 +22,6 @@ class CoffeeListLocalImpl(
                 )
             }
         }
-    }
 
     private fun fromGson(gson: String?): Array<String?> {
         val listType = object : TypeToken<Array<String?>?>() {}.type
