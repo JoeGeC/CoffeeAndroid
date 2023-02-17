@@ -5,6 +5,6 @@ import retrofit2.Call
 import retrofit2.http.GET
 
 interface CoffeeListRemoteCalls {
-    @GET("coffee/hot")
+    @GET("coffee/iced")
     fun retrieveCoffees() : Call<List<CoffeeResponse>>
 }

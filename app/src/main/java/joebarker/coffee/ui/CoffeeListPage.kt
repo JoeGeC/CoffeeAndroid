@@ -28,10 +28,11 @@ fun CoffeeListPage(navController: NavHostController, viewModel: CoffeeListViewMo
     LaunchedEffect(Unit) { viewModel.fetchCoffeeList() }
     val isLoading by viewModel.isLoading.collectAsState()
     val isError by viewModel.error.collectAsState()
+    val coffees by viewModel.coffeeList.collectAsState()
     when {
         isLoading -> LoadingUi()
         isError -> ErrorUi(navController)
-        else -> CoffeeListUi(viewModel.coffeeList!!, navController)
+        else -> CoffeeListUi(coffees, navController)
     }
 }
 
@@ -54,7 +55,9 @@ fun CoffeeListItemUi(coffee: Coffee, navController: NavHostController) {
     ){
         Box(
             contentAlignment = Alignment.Center,
-            modifier = Modifier.width(40.dp).padding(start = 8.dp)
+            modifier = Modifier
+                .width(40.dp)
+                .padding(start = 8.dp)
         ) {
             if (coffee.liked) {
                 Image(

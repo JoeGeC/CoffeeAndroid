@@ -3,11 +3,10 @@ package joebarker.domain.useCase
 import joebarker.domain.boundary.presentation.GetCoffeeListUseCase
 import joebarker.domain.boundary.repository.CoffeeListRepository
 import joebarker.domain.entity.Coffee
-import joebarker.domain.entity.Either
-import joebarker.domain.entity.ErrorEntity
+import kotlinx.coroutines.flow.Flow
 
 class GetCoffeeListUseCaseImpl(
     private val repository: CoffeeListRepository
 ) : GetCoffeeListUseCase {
-    override fun getCoffeeList(): Either<List<Coffee>?, ErrorEntity?> = repository.getCoffeeList()
+    override suspend fun getCoffeeList(): Flow<List<Coffee>> = repository.getCoffeeList()
 }

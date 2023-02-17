@@ -70,7 +70,7 @@ fun CoffeeDetailsUi(
                 modifier = Modifier
                     .width(30.dp)
                     .height(30.dp)
-            ) { liked -> viewModel.likeCoffee(coffee.id, liked) }
+            ) { liked -> if(coffee.id != null) viewModel.likeCoffee(coffee.id!!, liked) }
         }
 
         Text(

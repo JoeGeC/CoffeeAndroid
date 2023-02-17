@@ -3,11 +3,12 @@ plugins {
 }
 
 dependencies {
+    implementation project(path: ':domain')
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version")
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junit_version")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junit_version")
     testImplementation "org.mockito.kotlin:mockito-kotlin:$mockito_version"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
-    implementation project(path: ':domain')
 }
 
 tasks.test {

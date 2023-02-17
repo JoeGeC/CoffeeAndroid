@@ -1,18 +1,19 @@
 package joebarker.local.coffeeList
 
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CoffeeListDao {
-    @Query("SELECT * FROM coffee")
-    fun getAll(): List<Coffee>
+    @Query("SELECT * FROM coffeelocal")
+    fun getAll(): Flow<List<CoffeeLocal>>
 
-    @Query("SELECT * FROM coffee WHERE id LIKE :id")
-    fun get(id: Long): Coffee
+    @Query("SELECT * FROM coffeelocal WHERE id LIKE :id")
+    fun get(id: Long): CoffeeLocal
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertAll(vararg coffees: Coffee)
+    fun insertAll(vararg coffees: CoffeeLocal)
 
     @Update
-    fun update(coffee: Coffee)
+    fun update(coffee: CoffeeLocal)
 }

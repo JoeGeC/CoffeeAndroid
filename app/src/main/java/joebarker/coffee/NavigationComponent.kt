@@ -1,6 +1,7 @@
 package joebarker.coffee
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -58,7 +59,7 @@ fun getCoffee(
     coffeeId: Long?,
     navController: NavHostController?
 ): Coffee? {
-    val coffee = coffeeListHolder.coffeeList?.firstOrNull { coffee -> coffee.id == coffeeId }
+    val coffee = coffeeListHolder.coffeeList.collectAsState().value.firstOrNull { coffee -> coffee.id == coffeeId }
     if (coffee == null) navController?.navigateUp()
     return coffee
 }

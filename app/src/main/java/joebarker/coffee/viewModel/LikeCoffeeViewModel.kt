@@ -28,7 +28,7 @@ class LikeCoffeeViewModel(
     }
 
     private fun updateCoffeeLike(id: Long, liked: Boolean) {
-        coffeeListHolder.coffeeList?.first { it.id == id }?.liked = liked
+//        coffeeListHolder.coffeeList?.first { it.id == id }?.liked = liked
     }
 
 }

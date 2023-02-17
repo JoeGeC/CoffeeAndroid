@@ -22,7 +22,7 @@ import joebarker.coffee.viewModel.LoadingViewModel
 fun LikeableHeart(
     loadingViewModel: LoadingViewModel,
     coffeeListHolder: CoffeeListHolder,
-    coffeeId: Long,
+    coffeeId: Long?,
     modifier: Modifier = Modifier,
     onClick: (liked: Boolean) -> Unit
 ) {
