@@ -9,6 +9,7 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junit_version")
     testImplementation "org.mockito.kotlin:mockito-kotlin:$mockito_version"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version")
 }
 
 tasks.test {

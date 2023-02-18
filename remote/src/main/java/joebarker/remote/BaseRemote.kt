@@ -30,7 +30,7 @@ abstract class BaseRemote {
                 EitherResponse.Failure(errorResponse)
             }
         } catch(exception: Exception){
-            val error = ErrorResponse(exception.localizedMessage)
+            val error = ErrorResponse(null, exception.localizedMessage)
             EitherResponse.Failure(error)
         }
     }
@@ -45,7 +45,7 @@ abstract class BaseRemote {
                 emit(EitherResponse.Failure(errorResponse))
             }
         }.catch {
-            val error = ErrorResponse(it.localizedMessage)
+            val error = ErrorResponse(null, it.localizedMessage)
             emit(EitherResponse.Failure(error))
         }
     }

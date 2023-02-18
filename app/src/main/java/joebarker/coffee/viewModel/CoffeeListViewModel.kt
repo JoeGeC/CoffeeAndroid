@@ -4,6 +4,8 @@ import androidx.lifecycle.viewModelScope
 import joebarker.coffee.config
 import joebarker.domain.boundary.presentation.GetCoffeeListUseCase
 import joebarker.domain.entity.Coffee
+import joebarker.domain.entity.Errors
+import joebarker.domain.useCase.GetCoffeeListUseCaseImpl
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,10 +23,14 @@ class CoffeeListViewModel(
             _isLoading.value = true
             useCase.getCoffeeList()
                 .collect {
-                    _coffeeList.value = it
-                    _isLoading.value = false
+                    if(it.isFailure && it.errorBody?.error != Errors.InitialLocalEmpty.ordinal){
+                        _error.value = true
+                        _isLoading.value = false
+                    } else if(it.isSuccess){
+                        _coffeeList.value = it.body!!
+                        _isLoading.value = false
+                    }
                 }
-
         }
     }
 }

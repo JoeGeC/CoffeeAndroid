@@ -15,8 +15,8 @@ class CoffeeReviewRepositoryImpl(
         val reviewData = CoffeeReviewAdapter.convert(review)
         val result = remote.submitReview(reviewData)
         if(result.isFailure)
-            return Either.Failure(ErrorEntity(""))
-        return Either.Success("")
+            return Either.Failure(ErrorEntity())
+        return Either.Success()
     }
 
 }

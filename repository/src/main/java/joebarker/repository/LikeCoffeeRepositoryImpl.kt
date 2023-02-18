@@ -12,7 +12,7 @@ class LikeCoffeeRepositoryImpl(
     override fun likeCoffee(id: Long, liked: Boolean): Either<Any, ErrorEntity> {
         val result = local.likeCoffee(id, liked)
         if(result.isSuccess) return Either.Success()
-        return Either.Failure(ErrorEntity(""))
+        return Either.Failure(ErrorEntity())
     }
 
 }

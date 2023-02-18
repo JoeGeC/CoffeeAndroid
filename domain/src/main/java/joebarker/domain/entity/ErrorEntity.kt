@@ -1,5 +1,5 @@
 package joebarker.domain.entity
 
 data class ErrorEntity(
-    val error: String
+    val error: Int? = null
 )
