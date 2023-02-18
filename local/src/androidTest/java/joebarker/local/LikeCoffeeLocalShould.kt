@@ -3,8 +3,8 @@ package joebarker.local
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import joebarker.local.coffeeList.Coffee
 import joebarker.local.coffeeList.CoffeeDatabase
+import joebarker.local.coffeeList.CoffeeLocal
 import joebarker.repository.response.EitherResponse
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -19,7 +19,7 @@ class LikeCoffeeLocalShould {
     @Test
     fun returnSuccessResponseWhenSuccessfullyLikedCoffee(){
         val id: Long = 0
-        dao.insertAll(Coffee(id, "", "", "[]", "", false))
+        dao.insertAll(CoffeeLocal(id, "", "", "[]", "", false))
 
         val result = local.likeCoffee(id, true)
 

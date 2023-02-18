@@ -2,10 +2,7 @@ package joebarker.local.coffeeList
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import joebarker.repository.response.CoffeeListResponse
 import joebarker.repository.response.CoffeeResponse
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 class CoffeeAdapter {
 
