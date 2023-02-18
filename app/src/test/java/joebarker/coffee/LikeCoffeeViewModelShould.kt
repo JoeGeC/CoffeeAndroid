@@ -7,6 +7,8 @@ import joebarker.domain.entity.Coffee
 import joebarker.domain.entity.Either
 import joebarker.domain.entity.ErrorEntity
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -25,14 +27,14 @@ class LikeCoffeeViewModelShould {
         }
         val coffee = Coffee(id, "coffee", "description", listOf(), "", false)
         val coffeeListViewModel = mock<CoffeeListHolder> {
-            on { coffeeList }.doReturn(listOf(coffee))
+            on { coffeeList }.doReturn(MutableStateFlow(listOf(coffee)))
         }
         val viewModel = LikeCoffeeViewModel(useCase, coffeeListViewModel)
 
         viewModel.likeCoffee(id, true, Dispatchers.Unconfined)
 
-        val coffeeFromViewModel = viewModel.coffeeListHolder.coffeeList?.first { it.id == id }
-        assertTrue(coffeeFromViewModel!!.liked)
+        val coffeeFromViewModel = viewModel.coffeeListHolder.coffeeList.value.first { it.id == id }
+        assertTrue(coffeeFromViewModel.liked)
         assertFalse(viewModel.isLoading.value)
         assertFalse(viewModel.error.value)
     }

@@ -17,18 +17,18 @@ class CoffeeListRepositoryImpl(
     private val remote: CoffeeListRemote
 ) : CoffeeListRepository {
 
-    override suspend fun getCoffeeList(): Flow<Either<List<Coffee>, ErrorEntity>> {
+    override fun getCoffeeList(): Flow<Either<List<Coffee>, ErrorEntity>> {
         return remote.getCoffeeList()
             .onStart {
                 val localResult = local.getCoffeeList()
-                if(localResult.isEmpty())
+                if (localResult.isEmpty())
                     emit(EitherResponse.Failure(ErrorResponse(Errors.InitialLocalEmpty.ordinal)))
                 else emit(EitherResponse.Success(localResult))
             }
-            .onEach { if(it.isSuccess) local.insert(it.body) }
+            .onEach { if (it.isSuccess) local.insert(it.body) }
             .map {
                 val localResult = local.getCoffeeList()
-                if(it.isFailure)
+                if (it.isFailure)
                     return@map Either.Failure(ErrorEntity(it.errorBody?.status_code))
                 else return@map Either.Success(convertCoffeeResponse(localResult))
             }

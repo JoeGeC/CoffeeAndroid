@@ -1,16 +1,15 @@
 package joebarker.local
 
-import joebarker.local.coffeeList.Coffee
 import joebarker.local.coffeeList.CoffeeAdapter
-import joebarker.repository.response.CoffeeListResponse
+import joebarker.local.coffeeList.CoffeeLocal
 import joebarker.repository.response.CoffeeResponse
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class CoffeeAdapterShould {
     private val coffeeList = listOf(
-        Coffee(0, "first title", "first description", "[\"first ingredient\",\"second ingredient\"]", "first image url", false),
-        Coffee(1, "second title", "second description", "[]", "second image url", true)
+        CoffeeLocal(0, "first title", "first description", "[\"first ingredient\",\"second ingredient\"]", "first image url", false),
+        CoffeeLocal(1, "second title", "second description", "[]", "second image url", true)
     )
 
     private val coffeeResponseList = listOf(
@@ -20,14 +19,8 @@ class CoffeeAdapterShould {
 
     @Test
     fun convertCoffeeListResponseToCoffeeData(){
-        val result = CoffeeAdapter.toData(coffeeResponseList)
+        val result = CoffeeAdapter.toLocal(coffeeResponseList)
         assertEquals(coffeeList, result)
-    }
-
-    @Test
-    fun convertCoffeeDataToCoffeeResponseList(){
-        val result = CoffeeAdapter.toResponse(coffeeList)
-        assertEquals(CoffeeListResponse(coffeeResponseList), result)
     }
 
 }

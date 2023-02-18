@@ -33,7 +33,7 @@ class LikeCoffeeRepositoryShould {
 
         val result = repository.likeCoffee(id, true)
 
-        val expected = Either.Failure(ErrorEntity(""))
+        val expected = Either.Failure(ErrorEntity())
         Assertions.assertEquals(expected, result)
     }
 

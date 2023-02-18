@@ -26,13 +26,13 @@ class CoffeeReviewRepositoryShould {
 
         val result = repository.submitReview(review)
 
-        val expected = Either.Success("")
+        val expected = Either.Success<String?>()
         Assertions.assertEquals(expected, result)
     }
 
     @Test
     fun `Submit review to remote and return failure result`(){
-        val response = EitherResponse.Failure(ErrorResponse(""))
+        val response = EitherResponse.Failure(ErrorResponse())
         val remote = mock<CoffeeReviewRemote> {
             onBlocking { submitReview(reviewResponse) } doReturn response
         }
@@ -40,7 +40,7 @@ class CoffeeReviewRepositoryShould {
 
         val result = repository.submitReview(review)
 
-        val expected = Either.Failure(ErrorEntity(""))
+        val expected = Either.Failure(ErrorEntity())
         Assertions.assertEquals(expected, result)
     }
 

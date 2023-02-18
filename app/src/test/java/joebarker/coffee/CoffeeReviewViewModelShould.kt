@@ -37,7 +37,7 @@ class CoffeeReviewViewModelShould {
     @Test
     fun `Show error when something goes wrong `(){
         val useCase = mock<CoffeeReviewUseCase> {
-            onBlocking { submitReview(review) }.doReturn(Either.Failure(ErrorEntity("error")))
+            onBlocking { submitReview(review) }.doReturn(Either.Failure(ErrorEntity()))
         }
         val viewModel = CoffeeReviewViewModel(useCase)
 

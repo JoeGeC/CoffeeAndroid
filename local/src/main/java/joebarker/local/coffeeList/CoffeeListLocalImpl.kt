@@ -29,7 +29,7 @@ class CoffeeListLocalImpl(
     }
 
     override fun insert(coffeeResponses: List<CoffeeResponse>?) {
-        database.coffeeListDao().insertAll(*(CoffeeAdapter.toData(coffeeResponses)).toTypedArray())
+        database.coffeeListDao().insertAll(*(CoffeeAdapter.toLocal(coffeeResponses)).toTypedArray())
     }
 
 }

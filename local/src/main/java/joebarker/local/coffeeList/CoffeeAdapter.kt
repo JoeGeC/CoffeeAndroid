@@ -7,7 +7,7 @@ import joebarker.repository.response.CoffeeResponse
 class CoffeeAdapter {
 
     companion object{
-        fun toData(coffees: List<CoffeeResponse>?): List<CoffeeLocal> {
+        fun toLocal(coffees: List<CoffeeResponse>?): List<CoffeeLocal> {
             val result = mutableListOf<CoffeeLocal>()
             coffees?.forEach { coffee ->
                 result.add(

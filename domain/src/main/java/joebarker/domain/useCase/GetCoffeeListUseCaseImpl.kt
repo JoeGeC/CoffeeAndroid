@@ -10,5 +10,5 @@ import kotlinx.coroutines.flow.Flow
 class GetCoffeeListUseCaseImpl(
     private val repository: CoffeeListRepository
 ) : GetCoffeeListUseCase {
-    override suspend fun getCoffeeList(): Flow<Either<List<Coffee>, ErrorEntity>> = repository.getCoffeeList()
+    override fun getCoffeeList(): Flow<Either<List<Coffee>, ErrorEntity>> = repository.getCoffeeList()
 }

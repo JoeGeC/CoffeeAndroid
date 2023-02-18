@@ -29,7 +29,6 @@ class BaseRemoteShould {
             "    \"status_code\": $errorCode,\n" +
             "    \"status_message\": \"$errorMessage\"\n" +
             "}"
-    private val errorResponse = ErrorResponse(errorMessage)
 
     @Test
     fun `Return flow error response on failure call`() = runTest {
@@ -41,6 +40,7 @@ class BaseRemoteShould {
 
         val result = remote.getCoffeeList().first()
 
+        val errorResponse = ErrorResponse(errorCode, errorMessage)
         val expected = EitherResponse.Failure(errorResponse)
         verify(remoteCalls).retrieveCoffees()
         Assertions.assertEquals(expected, result)
@@ -55,7 +55,8 @@ class BaseRemoteShould {
 
         val result = remote.getCoffeeList().first()
 
-        val expected = EitherResponse.Failure(errorResponse)
+        val exceptionResponse = ErrorResponse(null, errorMessage)
+        val expected = EitherResponse.Failure(exceptionResponse)
         verify(remoteCalls).retrieveCoffees()
         Assertions.assertEquals(expected, result)
     }
