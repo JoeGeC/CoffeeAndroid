@@ -6,5 +6,5 @@ import joebarker.repository.response.ErrorResponse
 import kotlinx.coroutines.flow.Flow
 
 interface CoffeeListRemote {
-    fun getCoffeeList(): Flow<List<CoffeeResponse>>
+    fun getCoffeeList(): Flow<EitherResponse<List<CoffeeResponse>, ErrorResponse>>
 }

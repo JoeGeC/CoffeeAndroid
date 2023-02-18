@@ -6,5 +6,5 @@ import joebarker.domain.entity.ErrorEntity
 import kotlinx.coroutines.flow.Flow
 
 interface GetCoffeeListUseCase {
-    suspend fun getCoffeeList(): Flow<List<Coffee>>
+    suspend fun getCoffeeList(): Flow<Either<List<Coffee>, ErrorEntity>>
 }
