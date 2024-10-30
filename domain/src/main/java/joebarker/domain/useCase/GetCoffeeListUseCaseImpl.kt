@@ -6,6 +6,7 @@ import joebarker.domain.entity.Coffee
 import joebarker.domain.entity.Either
 import joebarker.domain.entity.ErrorEntity
 
+
 class GetCoffeeListUseCaseImpl(
     private val repository: CoffeeListRepository
 ) : GetCoffeeListUseCase {
