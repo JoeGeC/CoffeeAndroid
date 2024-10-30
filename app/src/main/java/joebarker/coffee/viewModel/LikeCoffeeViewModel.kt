@@ -1,15 +1,16 @@
 package joebarker.coffee.viewModel
 
 import androidx.lifecycle.viewModelScope
-import joebarker.coffee.config
+import dagger.hilt.android.lifecycle.HiltViewModel
 import joebarker.domain.boundary.presentation.LikeCoffeeUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LikeCoffeeViewModel(
-    private val useCase: LikeCoffeeUseCase = config.likeCoffeeUseCase,
+@HiltViewModel
+class LikeCoffeeViewModel @Inject constructor(
+    private val useCase: LikeCoffeeUseCase,
     val coffeeListHolder: CoffeeListHolder
 ) : BaseViewModel() {
 

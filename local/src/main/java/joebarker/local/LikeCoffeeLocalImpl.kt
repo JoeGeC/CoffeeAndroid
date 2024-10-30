@@ -4,8 +4,9 @@ import joebarker.local.coffeeList.CoffeeDatabase
 import joebarker.repository.boundary.local.LikeCoffeeLocal
 import joebarker.repository.response.EitherResponse
 import joebarker.repository.response.ErrorResponse
+import javax.inject.Inject
 
-class LikeCoffeeLocalImpl(
+class LikeCoffeeLocalImpl @Inject constructor(
     private val database: CoffeeDatabase
 ): LikeCoffeeLocal {
 

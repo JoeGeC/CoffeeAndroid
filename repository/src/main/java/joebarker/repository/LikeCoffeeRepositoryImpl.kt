@@ -4,8 +4,9 @@ import joebarker.domain.boundary.repository.LikeCoffeeRepository
 import joebarker.domain.entity.Either
 import joebarker.domain.entity.ErrorEntity
 import joebarker.repository.boundary.local.LikeCoffeeLocal
+import javax.inject.Inject
 
-class LikeCoffeeRepositoryImpl(
+class LikeCoffeeRepositoryImpl @Inject constructor(
     private val local: LikeCoffeeLocal
 ): LikeCoffeeRepository {
 

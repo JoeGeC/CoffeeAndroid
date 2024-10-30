@@ -5,8 +5,9 @@ import joebarker.domain.boundary.repository.CoffeeReviewRepository
 import joebarker.domain.entity.CoffeeReview
 import joebarker.domain.entity.Either
 import joebarker.domain.entity.ErrorEntity
+import javax.inject.Inject
 
-class ReviewCoffeeUseCaseImpl(
+class ReviewCoffeeUseCaseImpl @Inject constructor(
     private val repository: CoffeeReviewRepository
 ): CoffeeReviewUseCase {
 

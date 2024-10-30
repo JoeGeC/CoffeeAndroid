@@ -1,6 +1,7 @@
 package joebarker.coffee
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -22,7 +23,7 @@ import joebarker.domain.entity.Coffee
 fun NavigationComponent() {
     val viewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current) {    }
     val navController = rememberNavController()
-    val coffeeListViewModel = viewModel<CoffeeListViewModel>(viewModelStoreOwner = viewModelStoreOwner)
+    val coffeeListViewModel = hiltViewModel<CoffeeListViewModel>(viewModelStoreOwner = viewModelStoreOwner)
     NavHost(
         navController = navController,
         startDestination = "coffeeList"
@@ -36,7 +37,7 @@ fun NavigationComponent() {
             arguments = listOf(navArgument(coffeeId) { type = NavType.LongType })
         ) { backStackEntry ->
             val coffee = getCoffee(coffeeListViewModel, backStackEntry.arguments?.getLong(coffeeId), navController)
-            val viewModel = LikeCoffeeViewModel(coffeeListHolder = coffeeListViewModel)
+            val viewModel = hiltViewModel<LikeCoffeeViewModel>()
             CoffeeDetailsPage(navController, coffee, viewModel)
         }
         composable(
@@ -46,7 +47,7 @@ fun NavigationComponent() {
             )
         ) { backStackEntry ->
             val coffee = getCoffee(coffeeListViewModel, backStackEntry.arguments?.getLong(coffeeId), navController)
-            val coffeeReviewViewModel = viewModel<CoffeeReviewViewModel>()
+            val coffeeReviewViewModel = hiltViewModel<CoffeeReviewViewModel>()
             CoffeeReviewPage(navController, coffee, coffeeReviewViewModel)
         }
     }

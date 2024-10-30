@@ -1,8 +1,46 @@
 plugins {
-    id 'kotlin'
+    id 'kotlin-android'
+    id 'com.android.library'
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
+android {
+    namespace 'joebarker.local'
+    compileSdk 34
+
+    defaultConfig {
+        testInstrumentationRunnerArguments runnerBuilder: 'de.mannodermaus.junit5.AndroidJUnit5Builder'
+        minSdk 26
+        targetSdk 34
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+        }
+    }
+}
+
+
 dependencies {
+    implementation("com.google.dagger:hilt-android:2.51.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junit_version")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junit_version")
     testImplementation "org.mockito.kotlin:mockito-kotlin:$mockito_version"
@@ -10,6 +48,6 @@ dependencies {
     implementation project(path: ':domain')
 }
 
-tasks.test {
-    useJUnitPlatform()
+kapt {
+    correctErrorTypes = true
 }

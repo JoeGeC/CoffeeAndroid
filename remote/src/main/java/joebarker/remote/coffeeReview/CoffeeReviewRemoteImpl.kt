@@ -5,9 +5,10 @@ import joebarker.repository.boundary.remote.CoffeeReviewRemote
 import joebarker.repository.response.CoffeeReviewResponse
 import joebarker.repository.response.EitherResponse
 import joebarker.repository.response.ErrorResponse
+import javax.inject.Inject
 
-class CoffeeReviewRemoteImpl(
-    private var remoteCalls: CoffeeReviewRemoteCalls = retrofit.create(CoffeeReviewRemoteCalls::class.java)
+class CoffeeReviewRemoteImpl @Inject constructor(
+    private var remoteCalls: CoffeeReviewRemoteCalls
 ): BaseRemote(), CoffeeReviewRemote {
 
     override fun submitReview(review: CoffeeReviewResponse): EitherResponse<CoffeeReviewResponse?, ErrorResponse?> =

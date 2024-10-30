@@ -6,8 +6,9 @@ import joebarker.domain.entity.Either
 import joebarker.domain.entity.ErrorEntity
 import joebarker.repository.boundary.local.CoffeeListLocal
 import joebarker.repository.boundary.remote.CoffeeListRemote
+import javax.inject.Inject
 
-class CoffeeListRepositoryImpl(
+class CoffeeListRepositoryImpl @Inject constructor(
     private val local: CoffeeListLocal,
     private val remote: CoffeeListRemote
 ) : CoffeeListRepository {

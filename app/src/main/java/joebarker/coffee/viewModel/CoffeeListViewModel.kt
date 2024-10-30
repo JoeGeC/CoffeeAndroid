@@ -2,16 +2,16 @@ package joebarker.coffee.viewModel
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import joebarker.coffee.config
 import joebarker.domain.boundary.presentation.GetCoffeeListUseCase
 import joebarker.domain.entity.Coffee
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
-class CoffeeListViewModel(
-    private val useCase: GetCoffeeListUseCase = config.coffeeListUseCase
+class CoffeeListViewModel @Inject constructor(
+    private val useCase: GetCoffeeListUseCase
 ) : BaseViewModel(), CoffeeListHolder{
     override var coffeeList: List<Coffee>? = null
 

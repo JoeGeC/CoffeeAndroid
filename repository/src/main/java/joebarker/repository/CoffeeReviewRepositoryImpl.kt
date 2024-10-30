@@ -6,8 +6,9 @@ import joebarker.domain.entity.Either
 import joebarker.domain.entity.ErrorEntity
 import joebarker.repository.adapter.CoffeeReviewAdapter
 import joebarker.repository.boundary.remote.CoffeeReviewRemote
+import javax.inject.Inject
 
-class CoffeeReviewRepositoryImpl(
+class CoffeeReviewRepositoryImpl @Inject constructor(
     private val remote: CoffeeReviewRemote
 ): CoffeeReviewRepository {
 

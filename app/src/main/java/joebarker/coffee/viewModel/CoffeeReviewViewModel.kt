@@ -1,7 +1,7 @@
 package joebarker.coffee.viewModel
 
 import androidx.lifecycle.viewModelScope
-import joebarker.coffee.config
+import dagger.hilt.android.lifecycle.HiltViewModel
 import joebarker.domain.boundary.presentation.CoffeeReviewUseCase
 import joebarker.domain.entity.CoffeeReview
 import kotlinx.coroutines.CoroutineDispatcher
@@ -9,9 +9,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CoffeeReviewViewModel(
-    private val useCase: CoffeeReviewUseCase = config.coffeeReviewUseCase
+@HiltViewModel
+class CoffeeReviewViewModel @Inject constructor(
+    private val useCase: CoffeeReviewUseCase
 ) : BaseViewModel() {
     private val _nameError = MutableStateFlow(false)
     val nameError: StateFlow<Boolean> = _nameError

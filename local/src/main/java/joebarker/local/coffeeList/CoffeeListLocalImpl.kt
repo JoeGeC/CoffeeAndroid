@@ -3,8 +3,9 @@ package joebarker.local.coffeeList
 import joebarker.repository.boundary.local.CoffeeListLocal
 import joebarker.repository.response.CoffeeListResponse
 import joebarker.repository.response.CoffeeResponse
+import javax.inject.Inject
 
-class CoffeeListLocalImpl(
+class CoffeeListLocalImpl @Inject constructor(
     private val database: CoffeeDatabase
 ): CoffeeListLocal {
 

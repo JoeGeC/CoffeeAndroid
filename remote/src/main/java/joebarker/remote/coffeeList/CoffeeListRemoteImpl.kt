@@ -5,9 +5,10 @@ import joebarker.repository.boundary.remote.CoffeeListRemote
 import joebarker.repository.response.CoffeeResponse
 import joebarker.repository.response.EitherResponse
 import joebarker.repository.response.ErrorResponse
+import javax.inject.Inject
 
-class CoffeeListRemoteImpl(
-    private val remoteCalls: CoffeeListRemoteCalls = retrofit.create(CoffeeListRemoteCalls::class.java)
+class CoffeeListRemoteImpl @Inject constructor(
+    private val remoteCalls: CoffeeListRemoteCalls
 ) : BaseRemote(), CoffeeListRemote {
 
     override fun getCoffeeList(): EitherResponse<List<CoffeeResponse>?, ErrorResponse?> =
