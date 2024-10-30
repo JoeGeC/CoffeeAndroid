@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+
 }
 
 android {
@@ -23,6 +24,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    namespace 'joebarker.config'
 }
 
 dependencies {
