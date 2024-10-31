@@ -37,6 +37,11 @@ android {
             useJUnitPlatform()
         }
     }
+
+    buildFeatures {
+        buildConfig = false
+    }
+
 }
 
 dependencies {
